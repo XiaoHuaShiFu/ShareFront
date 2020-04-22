@@ -1,0 +1,237 @@
+{
+    "total": 4,
+    "list": [
+        {
+            "id": 5,
+            "userId": 1,
+            "content": "第一条分享 修改一下。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。",
+            "views": 1,
+            "collections": 1,
+            "comments": 3,
+            "likes": 1,
+            "open": false,
+            "shareTime": "2020-04-19 14:26:32",
+            "user": {
+                "id": 1,
+                "username": "wujiase",
+                "nickName": "xxsf",
+                "gender": "MAN",
+                "phone": "15992321303",
+                "email": "827032783@qq.com",
+                "avatarUrl": "http://localhost/upload/user/avatar/94ae25f6-602b-49ec-9272-060b6a992cf7.jpg",
+                "followers": 0,
+                "followings": 0,
+                "shares": 4,
+                "comments": 5,
+                "collections": 2,
+                "available": true
+            },
+            "shareImageList": [
+                {
+                    "id": 9,
+                    "shareId": 5,
+                    "imageUrl": "http://localhost/upload/share/image/6dc4922b-523d-4bd7-b5c7-cbb89e46a2ef.jpg",
+                    "imageIndex": 0
+                },
+                {
+                    "id": 10,
+                    "shareId": 5,
+                    "imageUrl": "http://localhost/upload/share/image/885c186e-64ac-4dc1-aa32-7835b58f9700.jpg",
+                    "imageIndex": 1
+                },
+                {
+                    "id": 11,
+                    "shareId": 5,
+                    "imageUrl": "http://localhost/upload/share/image/73b96f10-3dbf-435c-b3f4-092c3c02c574.jpg",
+                    "imageIndex": 2
+                },
+                {
+                    "id": 12,
+                    "shareId": 5,
+                    "imageUrl": "http://localhost/upload/share/image/e3637d03-780e-446a-ae2b-4069900b4f43.jpg",
+                    "imageIndex": 3
+                }
+            ],
+            "viewed": true,
+            "collected": true,
+            "liked": true
+        },
+        {
+            "id": 7,
+            "userId": 1,
+            "content": "第二条分享，测试下图片",
+            "views": 0,
+            "collections": 1,
+            "comments": 0,
+            "likes": 0,
+            "open": true,
+            "shareTime": "2020-04-19 14:56:48",
+            "user": {
+                "id": 1,
+                "username": "wujiase",
+                "nickName": "xxsf",
+                "gender": "MAN",
+                "phone": "15992321303",
+                "email": "827032783@qq.com",
+                "avatarUrl": "http://localhost/upload/user/avatar/94ae25f6-602b-49ec-9272-060b6a992cf7.jpg",
+                "followers": 0,
+                "followings": 0,
+                "shares": 4,
+                "comments": 5,
+                "collections": 2,
+                "available": true
+            },
+            "shareImageList": [
+                {
+                    "id": 13,
+                    "shareId": 7,
+                    "imageUrl": "http://localhost/upload/share/image/eb73386a-9fbd-40d5-8193-3e3a7ebe219a.jpg",
+                    "imageIndex": 0
+                },
+                {
+                    "id": 14,
+                    "shareId": 7,
+                    "imageUrl": "http://localhost/upload/share/image/7d226d29-a1f1-4e7b-b3ef-444e2ebab759.jpg",
+                    "imageIndex": 1
+                },
+                {
+                    "id": 15,
+                    "shareId": 7,
+                    "imageUrl": "http://localhost/upload/share/image/ded3625a-0ddf-4c4e-8e05-d98a0079f862.jpg",
+                    "imageIndex": 2
+                },
+                {
+                    "id": 16,
+                    "shareId": 7,
+                    "imageUrl": "http://localhost/upload/share/image/eae3489a-4b50-4001-842c-19846a506041.jpg",
+                    "imageIndex": 3
+                },
+                {
+                    "id": 17,
+                    "shareId": 7,
+                    "imageUrl": "http://localhost/upload/share/image/f1f7cc0c-ceae-47e8-964f-4da0125411cb.jpg",
+                    "imageIndex": 4
+                },
+                {
+                    "id": 18,
+                    "shareId": 7,
+                    "imageUrl": "http://localhost/upload/share/image/2b55f1db-c734-47c2-b7e4-dade2d4a9de1.jpg",
+                    "imageIndex": 5
+                }
+            ],
+            "viewed": false,
+            "collected": true,
+            "liked": false
+        },
+        {
+            "id": 8,
+            "userId": 1,
+            "content": "第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。第二条分享，测试下图片。",
+            "views": 0,
+            "collections": 0,
+            "comments": 0,
+            "likes": 0,
+            "open": true,
+            "shareTime": "2020-04-19 17:42:15",
+            "user": {
+                "id": 1,
+                "username": "wujiase",
+                "nickName": "xxsf",
+                "gender": "MAN",
+                "phone": "15992321303",
+                "email": "827032783@qq.com",
+                "avatarUrl": "http://localhost/upload/user/avatar/94ae25f6-602b-49ec-9272-060b6a992cf7.jpg",
+                "followers": 0,
+                "followings": 0,
+                "shares": 4,
+                "comments": 5,
+                "collections": 2,
+                "available": true
+            },
+            "shareImageList": [
+                {
+                    "id": 19,
+                    "shareId": 8,
+                    "imageUrl": "http://localhost/upload/share/image/c453a116-b577-4983-9212-e802bf791cd8.jpg",
+                    "imageIndex": 0
+                }
+            ],
+            "viewed": false,
+            "collected": false,
+            "liked": false
+        },
+        {
+            "id": 4,
+            "userId": 1,
+            "content": "第二条分享，测试下图片",
+            "views": 0,
+            "collections": 0,
+            "comments": 0,
+            "likes": 0,
+            "open": true,
+            "shareTime": "2020-04-19 14:17:54",
+            "user": {
+                "id": 1,
+                "username": "wujiase",
+                "nickName": "xxsf",
+                "gender": "MAN",
+                "phone": "15992321303",
+                "email": "827032783@qq.com",
+                "avatarUrl": "http://localhost/upload/user/avatar/94ae25f6-602b-49ec-9272-060b6a992cf7.jpg",
+                "followers": 0,
+                "followings": 0,
+                "shares": 4,
+                "comments": 5,
+                "collections": 2,
+                "available": true
+            },
+            "shareImageList": [
+                {
+                    "id": 5,
+                    "shareId": 4,
+                    "imageUrl": "http://localhost/upload/share/image/38fe2837-9c02-4814-992c-6bd78c158cee.jpg",
+                    "imageIndex": 0
+                },
+                {
+                    "id": 6,
+                    "shareId": 4,
+                    "imageUrl": "http://localhost/upload/share/image/8432feaa-14a6-4364-8a7d-bb321c8ed2a9.jpg",
+                    "imageIndex": 1
+                },
+                {
+                    "id": 7,
+                    "shareId": 4,
+                    "imageUrl": "http://localhost/upload/share/image/cbd713ba-2aac-4c07-9806-381f045261c5.jpg",
+                    "imageIndex": 2
+                },
+                {
+                    "id": 8,
+                    "shareId": 4,
+                    "imageUrl": "http://localhost/upload/share/image/84f1eef1-25f8-470b-ae61-2f67622f6a36.jpg",
+                    "imageIndex": 3
+                }
+            ],
+            "viewed": false,
+            "collected": false,
+            "liked": false
+        }
+    ],
+    "pageNum": 1,
+    "pageSize": 10,
+    "size": 4,
+    "startRow": 1,
+    "endRow": 4,
+    "pages": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums": [
+        1
+    ],
+    "navigateFirstPage": 1,
+    "navigateLastPage": 1
+}
