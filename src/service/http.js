@@ -1,8 +1,9 @@
 import axios from 'axios'
-import service from './contactApi'
+import service from './Api'
+import ViewUI from 'view-design';
 
 let instance = axios.create({
-    baseURL: 'http://localhost',
+    baseURL: 'http://localhost:8888',
     timeout: 1000
 })
 
@@ -16,7 +17,7 @@ for (let key in service) {
     Http[key] = async function(
         params, // get,delete:url; put,post,path:data
         isFormData = false, // 是否是formdata
-        config={} // 配置参数
+        config={}, // 配置参数
     ) {
         let newParams = {}
         // 是否是formdata
@@ -53,18 +54,25 @@ for (let key in service) {
 
 // 请求拦截器
 instance.interceptors.request.use(config=>{
-    // 请求前做什么
+    // 添加token
+    config.headers.Authorization = sessionStorage['token'];
+    ViewUI.LoadingBar.start();
     return config
-}, ()=>{
+}, (response)=>{
     // 请求错误
+    ViewUI.LoadingBar.finish();
+    return response
 })
 
 // 响应拦截器
 instance.interceptors.response.use(res=>{
     // 请求成功
-    return res.data
-}, ()=>{
+    ViewUI.LoadingBar.finish();
+    return res
+}, (response)=>{
     // 请求错误
+    ViewUI.LoadingBar.finish();
+    return response
 })
 
 export default Http

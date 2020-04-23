@@ -1,6 +1,6 @@
 <template>
-    <div style="width:700px;">
-        <Row class="share-container">
+    <Card style="width:700px;" dis-hover="true">
+        <Row class="share-container" >
             <Col class="share-image">
                 <img
                     class="share-image1"
@@ -20,11 +20,13 @@
                         </Col>
                         <Col class="share-content-else-right">
                             <Col>
-                                <img v-if="!share.collected"
+                                <img
+                                    v-if="!share.collected"
                                     class="share-content-else-right-img"
                                     src="/icon/_收藏.png"
                                 />
-                                <img v-if="share.collected"
+                                <img
+                                    v-if="share.collected"
                                     class="share-content-else-right-img"
                                     src="/icon/_收藏2.png"
                                 />
@@ -40,11 +42,13 @@
                             <Col>{{ share.comments }}</Col>
                             <Col>|</Col>
                             <Col>
-                                <img v-if="!share.liked"
+                                <img
+                                    v-if="!share.liked"
                                     class="share-content-else-right-img"
                                     src="/icon/赞.png"
                                 />
-                                <img v-if="share.liked"
+                                <img
+                                    v-if="share.liked"
                                     class="share-content-else-right-img"
                                     src="/icon/赞2.png"
                                 />
@@ -55,13 +59,13 @@
                 </Col>
             </Col>
         </Row>
-    </div>
+    </Card>
 </template>
 <script>
-import { Row, Col, Avatar } from "view-design";
+import { Row, Col, Avatar, Card } from "view-design";
 
 export default {
-    components: { Row, Col, Avatar },
+    components: { Row, Col, Avatar, Card },
     props: ["share"]
 };
 </script>

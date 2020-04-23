@@ -1,7 +1,7 @@
-const CONTACT_API = {
-    getData: {
+const APIS = {
+    listShares: {
         method: 'get',
-        url: '/data.json'
+        url: '/v1/shares'
     },
     newContactForm: {
         method: 'post',
@@ -18,7 +18,15 @@ const CONTACT_API = {
     delContact: {
         method: 'delete',
         url: '/contact'
+    },
+    postToken: {
+        method: 'post',
+        url: '/v1/tokens'
+    },
+    postUser: {
+        method: 'post',
+        url: '/v1/users'
     }
 }
 
-export default CONTACT_API
+export default APIS
