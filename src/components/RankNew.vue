@@ -15,6 +15,7 @@
                     <div class="rank-container">
                         <div style="height:15px">{{ share.content }}</div>
                         <div style="height:15px; padding-top:5px; font-size:10px; color:#aaa; position:relactive; left:100px;">
+                            <!-- <Time :time="share.shareTime" /> -->
                             {{ share.shareTime }}
                         </div>
                     </div>

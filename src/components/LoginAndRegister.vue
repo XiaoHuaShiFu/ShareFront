@@ -5,7 +5,7 @@
             <Row :gutter="32">
                 <Col span="24" class="demo-tabs-style1">
                     <Tabs v-model="isLogin">
-                        <TabPane label="登录" name="isLogin">
+                        <TabPane label="登录" name="isLogin0">
                             <Form
                                 ref="Login"
                                 :model="Login"
@@ -75,10 +75,18 @@
                                 class="signup"
                                 style=" display: flex; width:100%;flex-direction: column;align-items: center;"
                             >
-                                <FormItem prop="avatar" style="position:relative;">
-                                    <UploadImage @receive="getImage"></UploadImage>
+                                <FormItem
+                                    prop="avatar"
+                                    style="position:relative;"
+                                >
+                                    <UploadImage
+                                        @receive="getImage"
+                                    ></UploadImage>
                                 </FormItem>
-                                <FormItem prop="username" style="width:100%;position:relative;top:-20px">
+                                <FormItem
+                                    prop="username"
+                                    style="width:100%;position:relative;top:-20px"
+                                >
                                     <Input
                                         type="text"
                                         v-model="Register.username"
@@ -97,7 +105,10 @@
                                         {{ Register.error.username }}
                                     </p>
                                 </FormItem>
-                                <FormItem prop="nickName" style="width:100%;position:relative;top:-20px">
+                                <FormItem
+                                    prop="nickName"
+                                    style="width:100%;position:relative;top:-20px"
+                                >
                                     <Input
                                         type="text"
                                         v-model="Register.nickName"
@@ -117,7 +128,10 @@
                                     </p>
                                 </FormItem>
 
-                                <FormItem prop="password" style="width:100%;position:relative;top:-20px">
+                                <FormItem
+                                    prop="password"
+                                    style="width:100%;position:relative;top:-20px"
+                                >
                                     <Input
                                         type="password"
                                         v-model="Register.password"
@@ -135,7 +149,10 @@
                                         {{ Register.error.password }}
                                     </p>
                                 </FormItem>
-                                <FormItem prop="password2" style="width:100%;position:relative;top:-20px">
+                                <FormItem
+                                    prop="password2"
+                                    style="width:100%;position:relative;top:-20px"
+                                >
                                     <Input
                                         type="password"
                                         v-model="Register.password2"
@@ -153,7 +170,9 @@
                                         {{ Register.error.password }}
                                     </p>
                                 </FormItem>
-                                <FormItem style="text-align:center;width:100%;position:relative;top:-20px">
+                                <FormItem
+                                    style="text-align:center;width:100%;position:relative;top:-20px"
+                                >
                                     <p
                                         class="error-text marb8"
                                         v-show="Register.error.error"
@@ -190,11 +209,12 @@ import {
     Form,
     FormItem,
     Input,
-    Icon,
+    Icon
     // Upload
 } from "view-design";
 import login from "./../service/Login";
 import UploadImage from "@/components/UploadImage.vue";
+import UserApi from "./../service/UserApi";
 export default {
     components: {
         Modal,
@@ -307,36 +327,36 @@ export default {
                 password: ""
             },
             uploadImgUrl: "",
-            visible:true
+            visible: true
         };
     },
     methods: {
         seedMessage() {},
         errorUnshow() {},
-        loginSubmit(name) {
+        async loginSubmit(name) {
             let values = this.$refs[name].model;
-            let result = login(values.username, values.password, "USER");
-            result.then(res => {
-                // 密码错误
-                if (res.status != 201) {
-                    this.Login.error.all = "账号或密码错误";
-                }
-                if (res.status == 201) {
-                    // 密码正确
-                    res = res.data;
-                    sessionStorage.setItem("token", res.token);
-                    sessionStorage.setItem("tokenType", res.type);
-                    sessionStorage.setItem("id", res.id);
-                    this.Login.error.all = "登录成功";
-                }
-            });
+            let res = await login(values.username, values.password, "USER");
+            // 密码错误
+            if (res.status != 201) {
+                this.Login.error.all = "账号或密码错误";
+            }
+            if (res.status == 201) {
+                // 密码正确
+                res = res.data;
+                sessionStorage.setItem("token", res.token);
+                sessionStorage.setItem("tokenType", res.type);
+                sessionStorage.setItem("id", res.id);
+                this.Login.error.all = "登录成功";
+                await UserApi.getUserAndSaveInSessionStorage(res.id);
+                // 跳转到个人主页
+                this.$router.push("/user/home");
+            }
         },
         async registerSubmit(name) {
             let values = this.$refs[name].model;
             if (values.password != values.password2) {
                 this.Register.error.error = "两个密码不一致！";
             } else {
-                console.log(values);
                 let config = {
                     headers: {
                         "Content-Type": "multipart/form-data"
@@ -356,7 +376,8 @@ export default {
             }
         },
         getImage(file) {
-            this.Register.avatarFile = file
+            console.log(file)
+            this.Register.avatarFile = file;
         }
     }
 };

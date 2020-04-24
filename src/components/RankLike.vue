@@ -6,7 +6,7 @@
         <List class="ListContainer">
             <Card>
                 <ListItem v-for="share in shareListWithLike" :key="share.id">
-                    <div style="font-weight:bold; color:#FF8140;">
+                    <div style="font-weight:bold; color:#FF8140; width:11px;">
                         {{ share.index }}
                     </div>
                     <Avatar
@@ -32,6 +32,7 @@
 <script>
 import List from "view-design/src/components/list/list";
 import ListItem from "view-design/src/components/list/list-item";
+
 import { Avatar, Card } from "view-design";
 export default {
     components: {

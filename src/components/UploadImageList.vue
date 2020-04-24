@@ -14,7 +14,7 @@
             </div>
         </div>
         
-        <Upload v-if="shareImageList.length < 6"
+        <Upload  v-if="shareImageList.length < 6"
             ref="upload"
             :show-upload-list="false"
             :format="['jpg', 'jpeg', 'png']"

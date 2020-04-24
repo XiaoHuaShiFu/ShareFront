@@ -3,6 +3,10 @@ const APIS = {
         method: 'get',
         url: '/v1/shares'
     },
+    postShares: {
+        method: 'post',
+        url: '/v1/shares'
+    },
     newContactForm: {
         method: 'post',
         url: '/contact/new/form'
@@ -25,6 +29,10 @@ const APIS = {
     },
     postUser: {
         method: 'post',
+        url: '/v1/users'
+    },
+    getUser: {
+        method: 'get',
         url: '/v1/users'
     }
 }
