@@ -32,7 +32,7 @@
                                 style="width:100%; "
                                 :rows="4"
                         /></Row>
-                        <Row style="margin-top:10px;">
+                        <Row style="margin-top:10px;margin-bottom:-10px;">
                             <Col
                                 span="17"
                                 style="display: flex; flex-direction: row; align-items: left;"
@@ -41,7 +41,7 @@
                                     @receive="reveiveImageList"
                                 ></UploadImageList>
                             </Col>
-                            <Col span="3" style="height:100%; margin-top:5px;">
+                            <Col span="3" style="height:100%; margin-top:8px;">
                                 <Dropdown
                                     trigger="click"
                                     @on-click="changeOpen"
@@ -74,7 +74,7 @@
                                     type="info"
                                     @click="saveShare()"
                                     ghost
-                                    style="width:80px;margin-top:12px;"
+                                    style="width:80px;margin-top:15px;"
                                     >发布</Button
                                 ></Col
                             >
@@ -178,7 +178,8 @@ import {
     DropdownMenu,
     DropdownItem,
     Icon,
-    Notice
+    Notice,
+    Message
 } from "view-design";
 export default {
     components: {
@@ -217,17 +218,24 @@ export default {
                 open: true,
                 imageList: []
             },
-            pageNum:1,
+            pageNum: 1,
             hasNextPage: true
         };
     },
     async created() {
+        // 加载页面数据
         let userId = sessionStorage.getItem("id");
         this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
-        this.shareList = await ShareApi.listShares(1, 10, "share_time", 95);
+        this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
         this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 9);
-        this.shareLikeNewList = await ShareApi.listShares(1, 10, "share_time", 12);
-        
+        this.shareLikeNewList = await ShareApi.listShares(
+            1,
+            10,
+            "share_time",
+            12
+        );
+
+        // 监听触底事件
         let that = this;
         window.onscroll = function() {
             var scrollTop =
@@ -243,6 +251,12 @@ export default {
                 that.pushShareList();
             }
         };
+
+        // 禁止后退
+        history.pushState(null, null, document.URL);
+        window.addEventListener("popstate", function() {
+            history.pushState(null, null, document.URL);
+        });
     },
     methods: {
         handleReachBottom() {
@@ -328,14 +342,20 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
-            console.log("dsadasdsa")
-            let shareList0 = await ShareApi.listShares(this.pageNum + 1, 10, "share_time", 95);
-            console.log(shareList0);
-            console.log("pageNum=" + this.pageNum)
-            for (let i = 0; i < shareList0.length; i++) {
-                this.shareList.push(shareList0[i]);
+            let shareList0 = await ShareApi.listShares(
+                this.pageNum + 1,
+                10,
+                "share_time",
+                95
+            );
+            if (shareList0.length > 0) {
+                for (let i = 0; i < shareList0.length; i++) {
+                    this.shareList.push(shareList0[i]);
+                }
+                this.pageNum++;
+            } else {
+                Message.success("没有更多的分享了！！！");
             }
-            this.pageNum++;
         }
     }
 };

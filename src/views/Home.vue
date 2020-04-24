@@ -9,6 +9,7 @@
                         </div>
                     </Col>
                     <Col span="16"><Search></Search></Col>
+                    
                     <Col span="4">
                         <Menu
                             style="width:136px"
@@ -43,6 +44,7 @@
                         <Col span="13" class="center-content">
                             <Share :shareList="shareList"></Share>
                         </Col>
+                        <div style="width:10px;"></div>
                         <Col span="5" class="center-sider">
                             <RankLike
                                 :shareListWithLike="shareLikeRankList"
@@ -66,15 +68,13 @@
 
 <script>
 import Search from "@/components/Search.vue";
-import Share from "@/components/Share2.vue";
+import Share from "@/components/Share3.vue";
 import RankLike from "@/components/RankLike.vue";
 import RankNew from "@/components/RankNew.vue";
-import adaptString from "./../utils/StringUtils";
-import changeTime from "./../utils/DateUtils";
 import Footer from "@/components/Footer.vue";
 import LoginAndRegister from "@/components/LoginAndRegister.vue";
-
-import { Layout, Header, Menu, MenuItem, Row, Col, BackTop } from "view-design";
+import ShareApi from "./../service/ShareApi";
+import { Layout, Header, Menu, MenuItem, Row, Col, BackTop,Message } from "view-design";
 export default {
     components: {
         Layout,
@@ -100,16 +100,17 @@ export default {
             shareLikeNewList: [],
             activeName: "",
             showLoginAndRegister: false,
-            registerOrLogin: "isLogin"
+            registerOrLogin: "isLogin",
+            pageNum:1
         };
     },
-    created() {
-        if (sessionStorage["Authorization"] == null) {
+    async created() {
+        if (sessionStorage["token"] == null) {
             sessionStorage.setItem("token", "anonymous");
         }
-        this.listShares(1, 10, "share_time");
-        this.getShareLikeRankList();
-        this.getShareNewRankList();
+        this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 9);
+        this.shareLikeNewList = await ShareApi.listShares(1, 10, "share_time", 12);
         let that = this;
         window.onscroll = function() {
             var scrollTop =
@@ -122,71 +123,12 @@ export default {
                 document.body.scrollHeight;
 
             if (scrollTop + windowHeight == scrollHeight) {
-                console.log(
-                    "距顶部" +
-                        scrollTop +
-                        "可视区高度" +
-                        windowHeight +
-                        "滚动条总高度" +
-                        scrollHeight
-                );
-                that.shareList.push(that.shareList[0]);
+                that.pushShareList();
             }
         };
     },
 
     methods: {
-        async listShares(pageNum, pageSize, orderBy) {
-            let res = await this.$Http.listShares({
-                pageNum: pageNum,
-                pageSize: pageSize,
-                orderBy: orderBy
-            });
-            this.shareList = res.data.list;
-            for (let i = 0; i < this.shareList.length; i++) {
-                this.shareList[i].content = adaptString(
-                    this.shareList[i].content,
-                    95
-                );
-                this.shareList[i].shareTime = changeTime(
-                    this.shareList[i].shareTime
-                );
-                this.shareList[i].index = i + 1;
-            }
-        },
-        async getShareLikeRankList() {
-            let res = await this.$Http.listShares({
-                pageNum: 1,
-                pageSize: 10,
-                orderBy: "likes"
-            });
-            this.shareLikeRankList = res.data.list;
-            for (let i = 0; i < this.shareLikeRankList.length; i++) {
-                this.shareLikeRankList[i].content = adaptString(
-                    this.shareLikeRankList[i].content,
-                    9
-                );
-                this.shareLikeRankList[i].index = i + 1;
-            }
-        },
-        async getShareNewRankList() {
-            let res = await this.$Http.listShares({
-                pageNum: 1,
-                pageSize: 10,
-                orderBy: "share_time"
-            });
-            this.shareLikeNewList = res.data.list;
-            for (let i = 0; i < this.shareLikeNewList.length; i++) {
-                this.shareLikeNewList[i].content = adaptString(
-                    this.shareLikeNewList[i].content,
-                    12
-                );
-                this.shareLikeNewList[i].shareTime = changeTime(
-                    this.shareLikeNewList[i].shareTime
-                );
-            }
-        },
-        handleReachBottom() {},
         onSelectMenu(res) {
             if (res == "login") {
                 this.showLoginAndRegister = true;
@@ -196,6 +138,20 @@ export default {
                 this.registerOrLogin = "isRegister";
             }
             this.activeName = "3";
+        },
+        /**
+         * 加载下一页
+         */
+        async pushShareList() {
+            let shareList0 = await ShareApi.listShares(this.pageNum + 1, 10, "share_time", 95);
+            if (shareList0.length > 0) {
+                for (let i = 0; i < shareList0.length; i++) {
+                    this.shareList.push(shareList0[i]);
+                }
+                this.pageNum++;
+            } else {
+                Message.success('没有更多的分享了！！！');
+            }
         }
     }
 };

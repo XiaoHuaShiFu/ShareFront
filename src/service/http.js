@@ -20,7 +20,6 @@ for (let key in service) {
         config={}, // 配置参数
         urlParam="", // 路径参数
     ) {
-        console.log(urlParam)
         let newParams = {}
         // 是否是formdata
         if (params && isFormData) {

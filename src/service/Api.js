@@ -1,4 +1,5 @@
 const APIS = {
+    // share
     listShares: {
         method: 'get',
         url: '/v1/shares'
@@ -7,26 +8,31 @@ const APIS = {
         method: 'post',
         url: '/v1/shares'
     },
-    newContactForm: {
+    postSharesLikes: {
         method: 'post',
-        url: '/contact/new/form'
+        url: '/v1/shares/likes'
     },
-    newContactJson: {
-        method: 'post',
-        url: '/contact/new/json'
-    },
-    editContact: {
-        method: 'put',
-        url: '/contact/edit'
-    },
-    delContact: {
+    deleteSharesLikes: {
         method: 'delete',
-        url: '/contact'
+        url: '/v1/shares/likes'
     },
+    postSharesCollections: {
+        method: 'post',
+        url: '/v1/shares/collections'
+    },
+    deleteSharesCollections: {
+        method: 'delete',
+        url: '/v1/shares/collections'
+    },
+
+    // token
     postToken: {
         method: 'post',
         url: '/v1/tokens'
     },
+
+
+    // user
     postUser: {
         method: 'post',
         url: '/v1/users'
