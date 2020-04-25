@@ -1,10 +1,6 @@
 <template>
     <div class="container">
-        <Row class="header" justify="center" align="middle">
-            <Col span="4"><img src="/images/logo.jpg" width="150px" /> </Col>
-            <Col span="16"> <Search></Search></Col>
-            <Col span="4"> </Col>
-        </Row>
+        <Header></Header>
         <Row class="content">
             <Col span="4.2" class="centent-left">
                 <Menu :active-name="activeName" @on-select="onSelectMenu">
@@ -155,8 +151,8 @@
     </div>
 </template>
 <script>
+import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import Search from "@/components/Search.vue";
 
 import Share from "@/components/Share3.vue";
 import RankLike from "@/components/RankLike.vue";
@@ -187,7 +183,6 @@ export default {
         Footer,
         Row,
         Col,
-        Search,
         BackTop,
         Menu,
         MenuItem,
@@ -202,7 +197,8 @@ export default {
         DropdownMenu,
         DropdownItem,
         Icon,
-        UploadImageList
+        UploadImageList,
+        Header
     },
     data() {
         return {

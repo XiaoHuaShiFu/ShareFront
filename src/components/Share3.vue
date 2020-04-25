@@ -17,14 +17,41 @@
                             share.user.nickName
                         }}</Col>
 
-                        <Col span="1" v-if="showDropdown" style="font-weight:normal;" @click="onClickDropDown0(share)">
-                            <Dropdown @on-click="onClickDropDown" @click="onClickDropDown0(share)">
-                                <Icon type="ios-arrow-down" @click="onClickDropDown0(share)"></Icon>
-                                <DropdownMenu slot="list" @click="onClickDropDown0(share)">
-                                    <DropdownItem name="仅自己可见" :selected="!share.open" @click="onClickDropDown0(share)">仅自己可见</DropdownItem>
-                                    <DropdownItem name="公开" :selected="share.open" @click="onClickDropDown0(share)">公开</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
+                        <Col>
+                            <a
+                                span="1"
+                                v-if="showDropdown"
+                                style="font-weight:normal;"
+                                @click="onClickDropDown0(share)"
+                            >
+                                <Dropdown
+                                    @on-click="onClickDropDown"
+                                    @click="onClickDropDown0(share)"
+                                >
+                                    <Icon
+                                        type="ios-arrow-down"
+                                        @click="onClickDropDown0(share)"
+                                        color="#aaa"
+                                    ></Icon>
+                                    <DropdownMenu
+                                        slot="list"
+                                        @click="onClickDropDown0(share)"
+                                    >
+                                        <DropdownItem
+                                            name="仅自己可见"
+                                            :selected="!share.open"
+                                            @click="onClickDropDown0(share)"
+                                            >仅自己可见</DropdownItem
+                                        >
+                                        <DropdownItem
+                                            name="公开"
+                                            :selected="share.open"
+                                            @click="onClickDropDown0(share)"
+                                            >公开</DropdownItem
+                                        >
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </a>
                         </Col>
                     </Row>
                     <Row style="display:flex; font-size:13px;color:#aaa; ">{{
@@ -46,12 +73,14 @@
                                     v-for="image in share.shareImageList"
                                     :key="image.id"
                                 >
-                                    <Avatar
-                                        @click="onClickShareImage(image)"
-                                        :src="image.imageUrl"
-                                        shape="square"
-                                        size="113"
-                                    ></Avatar>
+                                    <a>
+                                        <Avatar
+                                            @click="onClickShareImage(image)"
+                                            :src="image.imageUrl"
+                                            shape="square"
+                                            size="113"
+                                        ></Avatar>
+                                    </a>
                                 </div>
                             </Row>
                         </Col>
@@ -66,30 +95,32 @@
                             style="display: flex; flex-direction:row; 
                         justify-content: center;align-items: center; height:100%;"
                         >
-                            <Row
-                                style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
+                            <Row>
+                                <a
+                                    href="#"
+                                    style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
                         justify-content: center;align-items: center;"
-                            >
-                                <img
-                                    @click="collect(share)"
-                                    v-if="!share.collected"
-                                    class="share-content-else-right-img"
-                                    src="/icon/_收藏.png"
-                                />
-                                <img
-                                    @click="collect(share)"
-                                    v-if="share.collected"
-                                    class="share-content-else-right-img"
-                                    src="/icon/_收藏2.png"
-                                />
-
-                                <div style="width:5px;"></div>
-                                <div
-                                    @click="collect(share)"
-                                    class="hoverChange"
                                 >
-                                    收藏
-                                </div>
+                                    <img
+                                        @click="collect(share)"
+                                        v-if="!share.collected"
+                                        class="share-content-else-right-img"
+                                        src="/icon/_收藏.png"
+                                    />
+                                    <img
+                                        @click="collect(share)"
+                                        v-if="share.collected"
+                                        class="share-content-else-right-img"
+                                        src="/icon/_收藏2.png"
+                                    />
+                                    <div style="width:5px;"></div>
+                                    <div
+                                        @click="collect(share)"
+                                        class="hoverChange"
+                                    >
+                                        收藏
+                                    </div>
+                                </a>
                             </Row>
                         </Col>
 
@@ -105,22 +136,24 @@
                             style="display: flex; flex-direction:row; 
                         justify-content: center;align-items: center;height:100%;"
                         >
-                            <Row
-                                style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
+                            <Row>
+                                <a
+                                    style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
                         justify-content: center;align-items: center;"
-                            >
-                                <img
-                                    @click="comment(share)"
-                                    class="share-content-else-right-img"
-                                    src="/icon/评论.png"
-                                />
-                                <div style="width:5px;"></div>
-                                <div
-                                    class="hoverChange"
-                                    @click="comment(share)"
                                 >
-                                    {{ share.comments }}
-                                </div>
+                                    <img
+                                        @click="comment(share)"
+                                        class="share-content-else-right-img"
+                                        src="/icon/评论.png"
+                                    />
+                                    <div style="width:5px;"></div>
+                                    <div
+                                        class="hoverChange"
+                                        @click="comment(share)"
+                                    >
+                                        {{ share.comments }}
+                                    </div>
+                                </a>
                             </Row>
                         </Col>
 
@@ -136,26 +169,31 @@
                             style="display: flex; flex-direction:row; 
                         justify-content: center;align-items: center;height:100%;"
                         >
-                            <Row
-                                style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
+                            <Row>
+                                <a
+                                    style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
                         justify-content: center;align-items: center;"
-                            >
-                                <img
-                                    @click="like(share)"
-                                    v-if="!share.liked"
-                                    class="share-content-else-right-img"
-                                    src="/icon/赞.png"
-                                />
-                                <img
-                                    @click="like(share)"
-                                    v-if="share.liked"
-                                    class="share-content-else-right-img"
-                                    src="/icon/赞2.png"
-                                />
-                                <div style="width:5px;"></div>
-                                <div class="hoverChange" @click="like(share)">
-                                    {{ share.likes }}
-                                </div>
+                                >
+                                    <img
+                                        @click="like(share)"
+                                        v-if="!share.liked"
+                                        class="share-content-else-right-img"
+                                        src="/icon/赞.png"
+                                    />
+                                    <img
+                                        @click="like(share)"
+                                        v-if="share.liked"
+                                        class="share-content-else-right-img"
+                                        src="/icon/赞2.png"
+                                    />
+                                    <div style="width:5px;"></div>
+                                    <div
+                                        class="hoverChange"
+                                        @click="like(share)"
+                                    >
+                                        {{ share.likes }}
+                                    </div>
+                                </a>
                             </Row>
                         </Col>
                     </Row>
@@ -232,22 +270,30 @@ export default {
         // 点击下拉事件
         async onClickDropDown(name) {
             if (name == "公开") {
-                let res = await ShareApi.updateShare(this.onClickDropDownShare.id, sessionStorage.getItem("id"),true);
-                console.log(res)
+                let res = await ShareApi.updateShare(
+                    this.onClickDropDownShare.id,
+                    sessionStorage.getItem("id"),
+                    true
+                );
+                console.log(res);
                 if (res.status == 200) {
                     Notice.success({
                         title: "公开成功"
                     });
                     this.$router.go(0);
                 } else {
-                    console.log(res)
+                    console.log(res);
                     Notice.success({
                         title: "公开失败",
                         desc: "未登录"
                     });
                 }
             } else {
-                let res = await ShareApi.updateShare(this.onClickDropDownShare.id, sessionStorage.getItem("id"), false);
+                let res = await ShareApi.updateShare(
+                    this.onClickDropDownShare.id,
+                    sessionStorage.getItem("id"),
+                    false
+                );
                 if (res.status == 200) {
                     Notice.success({
                         title: "隐藏成功"
@@ -264,7 +310,6 @@ export default {
         // 点击下拉按钮
         onClickDropDown0(share) {
             this.onClickDropDownShare = share;
-            
         }
     }
 };
