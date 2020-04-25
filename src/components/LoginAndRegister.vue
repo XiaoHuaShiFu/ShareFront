@@ -376,7 +376,6 @@ export default {
             }
         },
         getImage(file) {
-            console.log(file)
             this.Register.avatarFile = file;
         }
     }

@@ -4,6 +4,26 @@ const APIS = {
         method: 'get',
         url: '/v1/shares'
     },
+    listShareComments: {
+        method: 'get',
+        url: '/v1/shares/comments'
+    },
+    postShareComment: {
+        method: 'post',
+        url: '/v1/shares/comments'
+    },
+    listShareCommentComments: {
+        method: 'get',
+        url: '/v1/shares/comments/comments'
+    },
+    postShareCommentComment: {
+        method: 'post',
+        url: '/v1/shares/comments/comments'
+    },
+    getShare: {
+        method: 'get',
+        url: '/v1/shares'
+    },
     postShares: {
         method: 'post',
         url: '/v1/shares'
@@ -23,6 +43,22 @@ const APIS = {
     deleteSharesCollections: {
         method: 'delete',
         url: '/v1/shares/collections'
+    },
+    postSharesCommentsLikes: {
+        method: 'post',
+        url: '/v1/shares/comments/likes'
+    },
+    deleteSharesCommentsLikes: {
+        method: 'delete',
+        url: '/v1/shares/comments/likes'
+    },
+    postSharesCommentsCommentsLikes: {
+        method: 'post',
+        url: '/v1/shares/comments/comments/likes'
+    },
+    deleteSharesCommentsCommentsLikes: {
+        method: 'delete',
+        url: '/v1/shares/comments/comments/likes'
     },
 
     // token

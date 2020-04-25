@@ -5,6 +5,9 @@ import { Notice } from "view-design";
 
 const ShareApi = {};
 
+/**
+ * 查询分享
+ */
 ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength) => {
     let res = await Http.listShares({
         pageNum: pageNum,
@@ -26,6 +29,92 @@ ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength) => {
     return shareList
 }
 
+/**
+ * 查询分享评论
+ */
+ShareApi["listShareComments"] = async (pageNum, pageSize, shareId) => {
+    let res = await Http.listShareComments({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        shareId:shareId
+    });
+    let shareCommentList = res.data.list;
+    for (let i = 0; i < shareCommentList.length; i++) {
+        shareCommentList[i].commentTime = changeTime(
+            shareCommentList[i].commentTime
+        );
+    }
+
+    return shareCommentList
+}
+
+/**
+ * 查询分享评论的评论
+ */
+ShareApi["listShareCommentComments"] = async (pageNum, pageSize, shareCommentId) => {
+    let res = await Http.listShareCommentComments({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        shareCommentId:shareCommentId
+    });
+    let shareCommentCommentList = res.data.list;
+    for (let i = 0; i < shareCommentCommentList.length; i++) {
+        shareCommentCommentList[i].commentTime = changeTime(
+            shareCommentCommentList[i].commentTime
+        );
+    }
+
+    return shareCommentCommentList
+}
+
+
+/**
+ * 创建分享评论
+ */
+ShareApi["saveShareComment"] = async (userId, shareId, content) => {
+    let res = await Http.postShareComment({
+        userId: userId,
+        content: content,
+        shareId:shareId
+    }, true);
+
+    return res
+}
+
+/**
+ * 创建分享评论的评论
+ */
+ShareApi["saveShareCommentComment"] = async (userId, shareCommentId, content) => {
+    let res = await Http.postShareCommentComment({
+        userId: userId,
+        content: content,
+        shareCommentId:shareCommentId
+    }, true);
+
+    return res
+}
+
+
+/**
+ * 获取分享通过id
+ */
+ShareApi["getShare"] = async (shareId, contentLength) => {
+    let res = await Http.getShare({}, false, {}, "/" + shareId);
+    let share = res.data;
+    share.content = adaptString(
+        share.content,
+        contentLength
+    );
+    share.shareTime = changeTime(
+        share.shareTime
+    );
+
+    return share
+}
+
+/**
+ * 点赞分享
+ */
 ShareApi["likeShare"] = async (userId, shareId) => {
     let res = await Http.postSharesLikes({
         userId: userId,
@@ -35,6 +124,9 @@ ShareApi["likeShare"] = async (userId, shareId) => {
     return res
 }
 
+/**
+ * 取消点赞分享
+ */
 ShareApi["notLikeShare"] = async (userId, shareId) => {
     let res = await Http.deleteSharesLikes({
         userId: userId,
@@ -44,6 +136,9 @@ ShareApi["notLikeShare"] = async (userId, shareId) => {
     return res
 }
 
+/**
+ * 收藏分享
+ */
 ShareApi["collectShare"] = async (userId, shareId) => {
     let res = await Http.postSharesCollections({
         userId: userId,
@@ -54,7 +149,7 @@ ShareApi["collectShare"] = async (userId, shareId) => {
 }
 
 /**
- * 
+ * 取消收藏分享
  */
 ShareApi["notCollectShare"] = async (userId, shareId) => {
     let res = await Http.deleteSharesCollections({
@@ -162,4 +257,150 @@ ShareApi["like"] = async (share) => {
         });
     }
 }
+
+/**
+ * 点赞评论
+ */
+ShareApi["likeComment"] = async (userId, shareCommentId) => {
+    let res = await Http.postSharesCommentsLikes({
+        userId: userId,
+        shareCommentId: shareCommentId
+    }, true);
+
+    return res
+}
+
+/**
+ * 取消点赞评论
+ */
+ShareApi["notLikeComment"] = async (userId, shareCommentId) => {
+    let res = await Http.deleteSharesCommentsLikes({
+        userId: userId,
+        shareCommentId: shareCommentId
+    });
+
+    return res
+}
+
+/**
+ * 点赞分享评论
+ */
+ShareApi["likeShareComment"] = async (shareComment) => {
+    if (
+        sessionStorage.getItem("id") != "" &&
+        sessionStorage.getItem("id") != null
+    ) {
+        if (!shareComment.liked) {
+            let res = await ShareApi.likeComment(
+                sessionStorage.getItem("id"),
+                shareComment.id
+            );
+            if (res.status == 201) {
+                shareComment.likes = shareComment.likes + 1;
+                shareComment.liked = true;
+                Notice.success({
+                    title: "点赞成功"
+                });
+            } else {
+                Notice.warning({
+                    title: "点赞失败"
+                });
+            }
+        } else {
+            let res = await ShareApi.notLikeComment(
+                sessionStorage.getItem("id"),
+                shareComment.id
+            );
+            if (res.status == 204) {
+                shareComment.likes = shareComment.likes - 1;
+                shareComment.liked = false;
+                Notice.success({
+                    title: "取消点赞成功"
+                });
+            } else {
+                Notice.warning({
+                    title: "取消点赞失败"
+                });
+            }
+        }
+    } else {
+        Notice.warning({
+            title: "请登录后再点赞！"
+        });
+    }
+}
+
+
+/**
+ * 点赞评论的评论
+ */
+ShareApi["likeCommentComment"] = async (userId, shareCommentCommentId) => {
+    let res = await Http.postSharesCommentsCommentsLikes({
+        userId: userId,
+        shareCommentCommentId: shareCommentCommentId
+    }, true);
+
+    return res
+}
+
+/**
+ * 取消点赞评论的评论
+ */
+ShareApi["notLikeCommentComment"] = async (userId, shareCommentCommentId) => {
+    let res = await Http.deleteSharesCommentsCommentsLikes({
+        userId: userId,
+        shareCommentCommentId: shareCommentCommentId
+    });
+
+    return res
+}
+
+/**
+ * 点赞分享评论
+ */
+ShareApi["likeShareCommentComment"] = async (shareCommentComment) => {
+    if (
+        sessionStorage.getItem("id") != "" &&
+        sessionStorage.getItem("id") != null
+    ) {
+        if (!shareCommentComment.liked) {
+            let res = await ShareApi.likeCommentComment(
+                sessionStorage.getItem("id"),
+                shareCommentComment.id
+            );
+            if (res.status == 201) {
+                shareCommentComment.likes = shareCommentComment.likes + 1;
+                shareCommentComment.liked = true;
+                Notice.success({
+                    title: "点赞成功"
+                });
+            } else {
+                Notice.warning({
+                    title: "点赞失败"
+                });
+            }
+        } else {
+            let res = await ShareApi.notLikeCommentComment(
+                sessionStorage.getItem("id"),
+                shareCommentComment.id
+            );
+            if (res.status == 204) {
+                shareCommentComment.likes = shareCommentComment.likes - 1;
+                shareCommentComment.liked = false;
+                Notice.success({
+                    title: "取消点赞成功"
+                });
+            } else {
+                Notice.warning({
+                    title: "取消点赞失败"
+                });
+            }
+        }
+    } else {
+        Notice.warning({
+            title: "请登录后再点赞！"
+        });
+    }
+}
+
 export default ShareApi

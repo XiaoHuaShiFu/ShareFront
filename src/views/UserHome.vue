@@ -24,6 +24,7 @@
                     <Form ref="share" :model="share" inline>
                         <Row
                             ><Input
+                                :autosize="{minRows: 2,maxRows: 9}"
                                 v-model="share.content"
                                 maxlength="300"
                                 show-word-limit
@@ -31,6 +32,7 @@
                                 placeholder="分享些什么。。。"
                                 style="width:100%; "
                                 :rows="4"
+                                
                         /></Row>
                         <Row style="margin-top:10px;margin-bottom:-10px;">
                             <Col
@@ -101,9 +103,9 @@
                     >
                         <Col span="5">
                             <Row style="font-size:15px; font-weight:bold;">{{
-                                user.followings
+                                user.collections
                             }}</Row>
-                            <Row>关注</Row>
+                            <Row>收藏</Row>
                         </Col>
                         <Col
                             span="1"
@@ -115,9 +117,9 @@
                         </Col>
                         <Col span="5">
                             <Row style="font-size:15px; font-weight:bold;">{{
-                                user.followers
+                                user.comments
                             }}</Row>
-                            <Row>粉丝</Row>
+                            <Row>评论</Row>
                         </Col>
                         <Col
                             span="1"

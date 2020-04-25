@@ -14,6 +14,11 @@ const routes = [
         component: () => import('../views/UserHome.vue')
     },
     {
+        path: '/share',
+        name: 'Share',
+        component: () => import('../views/Share.vue')
+    },
+    {
         path: '/test',
         name: 'test',
         component: () => import('../views/test.vue')

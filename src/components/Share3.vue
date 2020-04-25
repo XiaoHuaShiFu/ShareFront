@@ -6,10 +6,10 @@
             style="width:100%;height:auto; background:#F2F2F5;margin-bottom:10px;"
         >
             <Row class="share-container">
-                <Col span="3" class="avatar">
+                <Col span="2" class="avatar">
                     <Avatar :src="share.user.avatarUrl" size="54" />
                 </Col>
-                <Col span="21" class="share-content">
+                <Col span="22" class="share-content">
                     <Row
                         style="color:#555;display:flex; font-size:18px; font-weight:bold;"
                         >{{ share.user.nickName }}</Row
@@ -94,12 +94,12 @@
                                 style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
                         justify-content: center;align-items: center;"
                             >
-                                <img
+                                <img @click="comment(share)"
                                     class="share-content-else-right-img"
                                     src="/icon/评论.png"
                                 />
                                 <div style="width:5px;"></div>
-                                <div class="hoverChange">
+                                <div class="hoverChange" @click="comment(share)">
                                     {{ share.comments }}
                                 </div>
                             </Row>
@@ -153,15 +153,22 @@ export default {
         Col,
         Row,
         Avatar
-        // Button
     },
     props: ["shareList", "handleReachBottom"],
     methods: {
+        // 点击收藏按钮
         collect(share) {
             ShareApi.collect(share);
         },
+        // 点击点赞按钮
         like(share) {
             ShareApi.like(share);
+        },
+        // 点击评论按钮
+        comment(share) {
+            this.$router.push({path:"/share", query: {
+                shareId:share.id,
+            }});
         }
     }
 };
