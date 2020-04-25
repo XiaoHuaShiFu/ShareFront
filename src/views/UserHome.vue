@@ -3,7 +3,7 @@
         <Header></Header>
         <Row class="content">
             <Col span="4.2" class="centent-left">
-                <Menu :active-name="activeName" @on-select="onSelectMenu">
+                <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
                     <MenuItem name="首页">
                         首页
                     </MenuItem>
