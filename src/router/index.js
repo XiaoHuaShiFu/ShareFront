@@ -48,9 +48,12 @@ const routes = [
         component: () => import('../views/UserHomeMyShare.vue')
     },
     {
-        path: '/test',
-        name: 'test',
-        component: () => import('../views/test.vue')
+        path: '/search',
+        name: 'Search',
+        meta: {
+            title: '分享搜素 分享-随时随地发现好玩事',
+        },
+        component: () => import('../views/Search.vue')
     }
 
 ]

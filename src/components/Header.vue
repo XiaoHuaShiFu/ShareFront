@@ -1,7 +1,7 @@
 <template>
     <Affix style="width:100%">
         <Row class="header" justify="center" align="middle">
-            <Col span="4"><img src="/images/logo.jpg" width="150px" /> </Col>
+            <Col span="4" @click="toHome"><a><img @click="toHome" src="/images/logo.jpg" width="150px" /></a> </Col>
             <Col span="15"> <Search></Search></Col>
             <Col span="5">
                 <a>
@@ -34,6 +34,15 @@ export default {
         Badge,
         Icon,
         Affix
+    },
+    methods: {
+        toHome() {
+            if (sessionStorage.getItem("token") != "anonymous") {
+                this.$router.push({path:'/user/home'});
+            } else {
+                this.$router.push({path:'/'});
+            }
+        }
     }
 };
 </script>

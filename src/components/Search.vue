@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         onSearch(query) {
-            console.log(query);
+            this.$router.push({path:'/search',query:{query:query}});
         }
     }
 };

@@ -30,6 +30,28 @@ ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength, open=
     return shareList
 }
 
+/**
+ * 查询分享通过内容
+ */
+ShareApi["listSharesByContent"] = async (pageNum, pageSize, orderBy, content, open=true) => {
+    let res = await Http.listShares({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        open:open,
+        orderBy: orderBy,
+        content:content
+    });
+    console.log(res)
+    let shareList = res.data.list;
+    for (let i = 0; i < shareList.length; i++) {
+        shareList[i].shareTime = changeTime(
+            shareList[i].shareTime
+        );
+    }
+
+    return shareList
+}
+
 
 /**
  * 查询我的分享
