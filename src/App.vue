@@ -21,7 +21,7 @@
 
     a {
         font-weight: bold;
-        color: #2c3e50;
+        color:#515a6e;
 
         &.router-link-exact-active {
             color: #42b983;
@@ -32,6 +32,7 @@
 
 /*包含以下四种的链接*/
 a {
+    color:#515a6e;
     text-decoration: none;
 }
 /*正常的未被访问过的链接*/

@@ -1,10 +1,6 @@
 <template>
     <div class="container">
-        <Row class="header" justify="center" align="middle">
-            <Col span="4"><img src="/images/logo.jpg" width="150px" /> </Col>
-            <Col span="16"> <Search></Search></Col>
-            <Col span="4"> </Col>
-        </Row>
+        <Header></Header>
         <Row class="content">
             <Col span="4.2" class="centent-left">
                 <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
@@ -16,6 +12,9 @@
                     </MenuItem>
                     <MenuItem name="我的收藏">
                         我的收藏
+                    </MenuItem>
+                    <MenuItem name="我的消息">
+                        我的消息
                     </MenuItem>
                 </Menu>
             </Col>
@@ -138,7 +137,7 @@
 </template>
 <script>
 import Footer from "@/components/Footer.vue";
-import Search from "@/components/Search.vue";
+import Header from "@/components/Header.vue";
 
 import Share from "@/components/Share3.vue";
 import UserApi from "./../service/UserApi";
@@ -160,7 +159,7 @@ export default {
         Footer,
         Row,
         Col,
-        Search,
+        Header,
         BackTop,
         Menu,
         MenuItem,
@@ -311,6 +310,10 @@ export default {
             } else if (name == "我的分享") {
                 this.$router.push({
                     path: "/user/home/myshare"
+                });
+            } else if (name == "我的消息") {
+                this.$router.push({
+                    path: "/user/home/mymessage"
                 });
             }
         }

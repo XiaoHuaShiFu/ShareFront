@@ -109,12 +109,12 @@ export default {
             this.query,
             true
         );
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 9);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 13);
         this.shareLikeNewList = await ShareApi.listShares(
             1,
             10,
             "share_time",
-            12
+            14
         );
         let that = this;
         window.onscroll = function() {

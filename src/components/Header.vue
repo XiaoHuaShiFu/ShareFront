@@ -56,6 +56,6 @@ export default {
     align-items: center;
     background: #ffffff;
     border-bottom:1px solid #eee;
-    z-index:9999999;
+    z-index:10;
 }
 </style>

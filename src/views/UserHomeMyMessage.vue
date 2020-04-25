@@ -20,7 +20,7 @@
             </Col>
             <Col span="10" class="centent-center">
                 <Card style="background:#F2F2F5; font-weight:bold; color:#333">
-                    我的分享
+                    我的消息
                     <div style="display:inline;font-weight:normal;">
                         （共{{ total }}条）
                     </div>
@@ -129,13 +129,13 @@ export default {
         Footer,
         Row,
         Col,
-        Header,
         BackTop,
         Menu,
         MenuItem,
         Card,
         Avatar,
-        Share
+        Share,
+        Header
     },
     data() {
         return {
@@ -150,7 +150,7 @@ export default {
             },
             pageNum: 1,
             hasNextPage: true,
-            activeName: "我的分享",
+            activeName: "我的消息",
             total: 0
         };
     },

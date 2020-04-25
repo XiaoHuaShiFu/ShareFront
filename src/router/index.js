@@ -32,6 +32,14 @@ const routes = [
         component: () => import('../views/Share.vue')
     },
     {
+        path: '/search',
+        name: 'Search',
+        meta: {
+            title: '分享搜素 分享-随时随地发现好玩事',
+        },
+        component: () => import('../views/Search.vue')
+    },
+    {
         path: '/user/home/collection',
         name: 'UserHomeCollection',
         meta: {
@@ -48,12 +56,12 @@ const routes = [
         component: () => import('../views/UserHomeMyShare.vue')
     },
     {
-        path: '/search',
-        name: 'Search',
+        path: '/user/home/mymessage',
+        name: 'UserHomeMyMessage',
         meta: {
-            title: '分享搜素 分享-随时随地发现好玩事',
+            title: '我的消息 分享-随时随地发现好玩事',
         },
-        component: () => import('../views/Search.vue')
+        component: () => import('../views/UserHomeMyMessage.vue')
     }
 
 ]

@@ -1,45 +1,62 @@
 <template>
-    <Card style="background:#F2F2F5; ">
-        <p style="font-size:30px; color:#17233d; font-weight:bold;">
+    <Card style="background:#F2F2F5;">
+        <Row
+            style="font-size:15px; font-weight:bold; color:#333; display: flex; 
+        flex-direction: row; align-items: left; "
+        >
             {{ title }}
-        </p>
-        <List class="ListContainer">
-            <Card>
-                <ListItem v-for="share in shareListWithLike" :key="share.id">
-                    <div style="font-weight:bold; color:#FF8140; width:11px;">
+        </Row>
+        <Row
+            class="ListContainer"
+            style="border-top:1px solid #ddd; margin-top:10px;padding-top:10px; "
+        >
+            <a
+                @click="comment(share)"
+                v-for="share in shareListWithLike"
+                :key="share.id"
+            >
+                <Row
+                    style="height:30px;text-align:left; 
+            font-size:15px; margin-top:5px; color:#515a6e;"
+                >
+                    <Col
+                        span="1"
+                        style="font-weight:bold; color:#FF8140; width:11px; display:inline; "
+                    >
                         {{ share.index }}
-                    </div>
-                    <Avatar
-                        style="position:relative; left:10px;"
-                        shape="square"
-                        icon="ios-person"
-                        size="large"
-                        :src="share.user.avatarUrl"
-                    />
-                    <div style="position:relative; left:25px;">
+                    </Col>
+                    <Col span="20" style="margin-left:15px;">
                         {{ share.content }}
-                    </div>
-                    <div
-                        style="font-size:10px; color:#aaa; position:relative; left:35px;"
+                    </Col>
+                    <Col
+                        span="1"
+                        style="font-size:10px; color:#aaa; text-align: right;"
                     >
                         {{ share.likes }}
-                    </div>
-                </ListItem>
-            </Card>
-        </List>
+                    </Col>
+                </Row>
+            </a>
+        </Row>
     </Card>
 </template>
 <script>
-import List from "view-design/src/components/list/list";
-import ListItem from "view-design/src/components/list/list-item";
-
-import { Avatar, Card } from "view-design";
+import { Card, Row, Col } from "view-design";
 export default {
     components: {
-        List,
-        ListItem,
-        Avatar,
-        Card
+        Card,
+        Row,
+        Col
+    },
+    methods: {
+        // 点击评论按钮
+        comment(share) {
+            this.$router.push({
+                path: "/share",
+                query: {
+                    shareId: share.id
+                }
+            });
+        }
     },
     props: ["shareListWithLike", "title"]
 };

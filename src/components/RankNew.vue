@@ -1,41 +1,70 @@
 <template>
     <Card style="background:#F2F2F5;">
-        <p style="font-size:30px; color:#17233d; font-weight:bold;">
+        <Row
+            style="font-size:15px; font-weight:bold; color:#333; display: flex; 
+        flex-direction: row; align-items: left; "
+        >
             {{ title }}
-        </p>
-        <List class="ListContainer">
-            <Card>
-                <ListItem v-for="share in shareListWithNew" :key="share.id">
-                    <Avatar
-                        shape="square"
-                        icon="ios-person"
-                        size="large"
-                        :src="share.user.avatarUrl"
-                    />
-                    <div class="rank-container">
-                        <div style="height:15px">{{ share.content }}</div>
-                        <div style="height:15px; padding-top:5px; font-size:10px; color:#aaa; position:relactive; left:100px;">
+        </Row>
+        <Row
+            class="ListContainer"
+            style="border-top:1px solid #ddd; margin-top:10px;padding-top:10px; "
+        >
+            <a
+                @click="comment(share)"
+                v-for="share in shareListWithNew"
+                :key="share.id"
+            >
+                <Row
+                    style="height:50px;text-align:left; 
+            font-size:15px; margin-top:5px; color:#515a6e; border-bottom:1px solid #ddd;"
+                >
+                    <Col span="4" @click="comment(share)"
+                        ><Avatar
+                            @click="comment(share)"
+                            shape="square"
+                            size="40"
+                            :src="share.shareImageList[0].imageUrl"
+                        ></Avatar
+                    ></Col>
+                    <Col
+                        @click="comment(share)"
+                        span="19"
+                        style="margin-left:5px;"
+                        ><Row style="">
+                            {{ share.content }}
+                        </Row>
+                        <Row style="height:15px; font-size:10px; color:#aaa; ">
                             <!-- <Time :time="share.shareTime" /> -->
                             {{ share.shareTime }}
-                        </div>
-                    </div>
-                </ListItem>
-            </Card>
-        </List>
+                        </Row></Col
+                    >
+                </Row>
+            </a>
+        </Row>
     </Card>
 </template>
 <script>
-import List from "view-design/src/components/list/list";
-import ListItem from "view-design/src/components/list/list-item";
-import { Avatar, Card } from "view-design";
+import { Card, Row, Col, Avatar } from "view-design";
 export default {
     components: {
-        List,
-        ListItem,
-        Avatar,
-        Card
+        Card,
+        Row,
+        Col,
+        Avatar
     },
-    props: ["shareListWithNew", "title"]
+    props: ["shareListWithNew", "title"],
+    methods: {
+        // 点击评论按钮
+        comment(share) {
+            this.$router.push({
+                path: "/share",
+                query: {
+                    shareId: share.id
+                }
+            });
+        }
+    }
 };
 </script>
 

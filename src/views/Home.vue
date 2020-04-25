@@ -109,8 +109,8 @@ export default {
             sessionStorage.setItem("token", "anonymous");
         }
         this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 9);
-        this.shareLikeNewList = await ShareApi.listShares(1, 10, "share_time", 12);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 13);
+        this.shareLikeNewList = await ShareApi.listShares(1, 10, "share_time", 14);
         let that = this;
         window.onscroll = function() {
             var scrollTop =

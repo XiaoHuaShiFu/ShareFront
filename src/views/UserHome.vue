@@ -13,6 +13,9 @@
                     <MenuItem name="我的收藏">
                         我的收藏
                     </MenuItem>
+                    <MenuItem name="我的消息">
+                        我的消息
+                    </MenuItem>
                 </Menu>
             </Col>
             <Col span="10" class="centent-center">
@@ -225,12 +228,12 @@ export default {
         let userId = sessionStorage.getItem("id");
         this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
         this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 9);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 13);
         this.shareLikeNewList = await ShareApi.listShares(
             1,
             10,
             "share_time",
-            12
+            14
         );
 
         // 监听触底事件
@@ -348,6 +351,10 @@ export default {
             } else if (name == "我的分享") {
                 this.$router.push({
                     path: "/user/home/myshare"
+                });
+            }else if (name == "我的消息") {
+                this.$router.push({
+                    path: "/user/home/mymessage"
                 });
             }
         }
