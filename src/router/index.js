@@ -62,6 +62,14 @@ const routes = [
             title: '我的消息 分享-随时随地发现好玩事',
         },
         component: () => import('../views/UserHomeMyMessage.vue')
+    },
+    {
+        path: '/admin/login',
+        name: 'AdminLogin',
+        meta: {
+            title: '登录 分享-管理端',
+        },
+        component: () => import('../views/admin/Login.vue')
     }
 
 ]
