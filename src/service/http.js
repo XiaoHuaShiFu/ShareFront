@@ -48,7 +48,6 @@ for (let key in service) {
             try {
                 response = await instance[api.method](newUrl, newParams, config)
             } catch(err) {
-                console.log(err)
                 response = err
             }
         } else if (api.method === 'delete' || api.method === 'get') {
@@ -59,6 +58,7 @@ for (let key in service) {
             } catch(err) {
                 response = err
             }
+            
         }
         return response
     }
@@ -85,6 +85,10 @@ instance.interceptors.response.use(res=>{
 }, (response)=>{
     // 请求错误
     ViewUI.LoadingBar.finish();
+    
+    response.status = response.response.status
+    response.data = response.response.data
+    response.headers = response.response.headers
     return response
 })
 

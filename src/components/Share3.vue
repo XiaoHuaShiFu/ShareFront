@@ -9,9 +9,9 @@
                 <Col span="2" class="avatar">
                     <Avatar :src="share.user.avatarUrl" size="54" />
                 </Col>
-                <Col span="22" class="share-content">
+                <Col span="21" class="share-content">
                     <Row
-                        style="color:#555;display:flex; font-size:18px; font-weight:bold;"
+                        style="color:#555;display:flex; font-size:14px; font-weight:bold;"
                         >{{ share.user.nickName }}</Row
                     >
                     <Row style="display:flex; font-size:13px;color:#aaa; ">{{
@@ -20,23 +20,25 @@
                     <Row>
                         <Col span="24">
                             <Row
-                                style="display: flex; color:#333;font-size:14px;"
+                                style="display: flex; color:#333;font-size:14px;text-align:left;"
                                 >{{ share.content }}</Row
                             >
 
                             <Row
                                 style="display: flex; flex-direction:row; flex-wrap:wrap;"
                             >
-                                <div
+                                <div 
+                                        @click="onClickShareImage(image)"
                                     style="margin:5px;"
                                     v-for="image in share.shareImageList"
                                     :key="image.id"
                                 >
-                                    <Avatar
+                                    <Avatar 
+                                        @click="onClickShareImage(image)"
                                         :src="image.imageUrl"
                                         shape="square"
                                         size="113"
-                                    />
+                                    ></Avatar>
                                 </div>
                             </Row>
                         </Col>
@@ -140,21 +142,32 @@
                     </Row>
                 </Col>
             </Row>
+             <Modal title="查看图片" v-model="visible">
+            <img :src="visibleImageUrl" v-if="visible" style="width: 100%" />
+        </Modal>
         </Card>
+       
     </div>
 </template>
 
 <script>
-import { Card, Col, Row, Avatar} from "view-design";
+import { Card, Col, Row, Avatar, Modal} from "view-design";
+
 import ShareApi from "./../service/ShareApi";
 export default {
     components: {
         Card,
         Col,
         Row,
-        Avatar
+        Avatar,Modal
     },
     props: ["shareList", "handleReachBottom"],
+    data() {
+        return {
+            visible: false,
+            visibleImageUrl: "",
+        }
+    },
     methods: {
         // 点击收藏按钮
         collect(share) {
@@ -169,7 +182,12 @@ export default {
             this.$router.push({path:"/share", query: {
                 shareId:share.id,
             }});
-        }
+        },
+        // 点击图片
+        onClickShareImage(image) {
+            this.visibleImageUrl = image.imageUrl;
+            this.visible = true;
+        },
     }
 };
 </script>
@@ -185,6 +203,7 @@ export default {
 }
 
 .share-content {
+    margin-left:20px;
     display: flex;
     flex-direction: column;
     justify-content: left;

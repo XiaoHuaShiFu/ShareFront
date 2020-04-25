@@ -41,7 +41,7 @@
             <div style="width:100%">
                 <Layout>
                     <Row class="center-container">
-                        <Col span="13" class="center-content">
+                        <Col span="11" class="center-content">
                             <Share :shareList="shareList"></Share>
                         </Col>
                         <div style="width:10px;"></div>

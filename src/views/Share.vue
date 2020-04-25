@@ -9,7 +9,7 @@
                     >
                         <Row class="share-container">
                             <Col span="2" class="avatar">
-                                <Avatar :src="share.user.avatarUrl" size="54" />
+                                <Avatar size="54" :src="share.user.avatarUrl" />
                             </Col>
                             <Col span="22" class="share-content">
                                 <Row
@@ -23,9 +23,10 @@
                                 <Row>
                                     <Col span="24">
                                         <Row
-                                            style="display: flex; color:#333;font-size:14px;"
-                                            >{{ share.content }}</Row
+                                            style="display: flex; color:#333;font-size:14px;text-align:left;"
                                         >
+                                            {{ share.content }}
+                                        </Row>
                                         <Row> </Row>
                                         <Row
                                             style="display: flex; flex-direction:row; flex-wrap:wrap;"
@@ -165,9 +166,10 @@
                             <Col style="margin-top:10px; ">
                                 <Avatar
                                     shape="square"
-                                    :scr="user.avatarUrl"
                                     size="30"
-                                ></Avatar>
+                                    :src="user.avatarUrl"
+                                >
+                                </Avatar>
                             </Col>
                             <Col
                                 style="margin-top:10px; margin-left:10px; width:95%"
@@ -220,18 +222,22 @@
                                 <Col span="1">
                                     <Avatar
                                         shape="square"
-                                        :src="shareComment0.user.avatarUrl"
                                         size="30"
+                                        :src="shareComment0.user.avatarUrl"
                                     />
                                 </Col>
                                 <Col style="margin-left:40px; width:95%;">
                                     <Row
                                         style="font-size:14px; display:flex; flex-direction:row ; justify-content: flex-start; "
                                     >
-                                        <div style="color:#eb7350;">
+                                        <div
+                                            style="color:#eb7350;display:inline;"
+                                        >
                                             {{ shareComment0.user.nickName }}
                                         </div>
-                                        <div style="color:#333; ">
+                                        <div
+                                            style="color:#333; display:inline;"
+                                        >
                                             ：{{ shareComment0.content }}
                                         </div>
                                     </Row>
@@ -248,11 +254,24 @@
                                         </Col>
                                         <Col span="17"></Col>
                                         <Col
+                                            @click="
+                                                onShowShareCommentReply(
+                                                    shareComment0
+                                                )
+                                            "
                                             span="2"
                                             style="display: flex; flex-direction:row; 
                         justify-content: center;align-items: center;height:100%;"
                                         >
-                                            回复
+                                            <div
+                                                @click="
+                                                    onShowShareCommentReply(
+                                                        shareComment0
+                                                    )
+                                                "
+                                            >
+                                                回复
+                                            </div>
                                         </Col>
 
                                         <Col
@@ -305,6 +324,64 @@
                                             </Row>
                                         </Col>
                                     </Row>
+                                    <!-- 评论一级评论 -->
+                                    <Col
+                                        v-if="
+                                            showShareCommentReply ==
+                                                shareComment0.id
+                                        "
+                                        style="margin-top:10px;  width:98%; background:#fff; "
+                                    >
+                                        <Form
+                                            ref="shareCommentComment"
+                                            :model="shareCommentComment"
+                                            inline
+                                            style="width:100%;display:flex;
+                                     flex-direction:column; align-items: center;"
+                                        >
+                                            <Row
+                                                style="width:95%;margin-top:15px;"
+                                                ><Input
+                                                    v-model="
+                                                        shareCommentComment.content
+                                                    "
+                                                    maxlength="100"
+                                                    show-word-limit
+                                                    type="textarea"
+                                                    placeholder="回复些什么。。。"
+                                                    style="width:100%; "
+                                                    :rows="1"
+                                                    autosize
+                                            /></Row>
+                                            <Row
+                                                style="display:flex;
+                                     flex-direction:row; width:100%;"
+                                            >
+                                                <Col
+                                                    span="20"
+                                                    style="height:100%; margin-top:8px;"
+                                                >
+                                                </Col>
+                                                <Col
+                                                    span="2"
+                                                    style="margin-top:8px; margin-left:18px; margin-bottom:10px;"
+                                                    ><Button
+                                                        type="info"
+                                                        @click="
+                                                            saveShareCommentComment(
+                                                                shareComment0,
+                                                                0
+                                                            )
+                                                        "
+                                                        ghost
+                                                        style="width:80px;margin-top:1px;"
+                                                        >评论</Button
+                                                    ></Col
+                                                >
+                                            </Row>
+                                        </Form>
+                                    </Col>
+                                    <!-- 评论一级评论 -->
                                     <Row
                                         v-if="
                                             shareComment0.comments != 0 &&
@@ -339,7 +416,8 @@
                                         >
                                             <div
                                                 v-for="shareCommentComment0 in shareCommentCommentList"
-                                                :key="shareCommentComment0.id" style="margin-bottom:10px; border-bottom:1px solid #ccc"
+                                                :key="shareCommentComment0.id"
+                                                style="margin-bottom:10px;  border-bottom:1px solid #ccc;"
                                             >
                                                 <Row
                                                     style="font-size:14px; display:flex; flex-direction:row ; justify-content: flex-start; "
@@ -348,10 +426,37 @@
                                                         {{
                                                             shareCommentComment0
                                                                 .user.nickName
-                                                        }}
+                                                        }}：
+                                                    </div>
+                                                    <div
+                                                        v-if="
+                                                            shareCommentComment0.parentShareCommentCommentId !=
+                                                                0
+                                                        "
+                                                    >
+                                                        <div
+                                                            style="color:#333; display:inline;"
+                                                        >
+                                                            回复
+                                                        </div>
+
+                                                        <div
+                                                            style="color:#eb7350; display:inline;"
+                                                        >
+                                                            @{{
+                                                                shareCommentComment0
+                                                                    .parentShareCommentCommentUser
+                                                                    .nickName
+                                                            }}
+                                                        </div>
+                                                        <div
+                                                            style="color:#333; display:inline;"
+                                                        >
+                                                            :
+                                                        </div>
                                                     </div>
                                                     <div style="color:#333; ">
-                                                        ：{{
+                                                        {{
                                                             shareCommentComment0.content
                                                         }}
                                                     </div>
@@ -359,7 +464,7 @@
 
                                                 <Row
                                                     style="display: flex; flex-direction:row;  justify-content: center; 
-                                        align-items: center; margin-top:10px; "
+                                        align-items: center; margin-top:10px;"
                                                 >
                                                     <Col
                                                         span="3"
@@ -375,7 +480,12 @@
                                                         style="display: flex; flex-direction:row; 
                         justify-content: center;align-items: center;height:100%;"
                                                     >
-                                                        回复
+                                                    <div @click="
+                                                    onShowShareCommentCommentReply(
+                                                        shareCommentComment0
+                                                    )
+                                                ">回复</div>
+                                                        
                                                     </Col>
 
                                                     <Col
@@ -436,6 +546,68 @@
                                                         </Row>
                                                     </Col>
                                                 </Row>
+                                                <!-- 二级评论的回复 -->
+                                                <Row >
+                                                    <Col
+                                                        v-if="
+                                                            showShareCommentCommentReply ==
+                                                                shareCommentComment0.id
+                                                        "
+                                                        style="margin-top:10px;  width:100%; background:#fff; "
+                                                    >
+                                                        <Form
+                                                            ref="shareCommentComment2"
+                                                            :model="
+                                                                shareCommentComment2
+                                                            "
+                                                            inline
+                                                            style="width:100%;display:flex;
+                                     flex-direction:column; align-items: center;"
+                                                        >
+                                                            <Row
+                                                                style="width:95%;margin-top:15px;"
+                                                                ><Input
+                                                                    v-model="
+                                                                        shareCommentComment2.content
+                                                                    "
+                                                                    maxlength="100"
+                                                                    show-word-limit
+                                                                    type="textarea"
+                                                                    placeholder="回复些什么。。。"
+                                                                    style="width:100%; "
+                                                                    :rows="1"
+                                                                    autosize
+                                                            /></Row>
+                                                            <Row
+                                                                style="display:flex;
+                                     flex-direction:row; width:100%;"
+                                                            >
+                                                                <Col
+                                                                    span="20"
+                                                                    style="height:100%; margin-top:8px;"
+                                                                >
+                                                                </Col>
+                                                                <Col
+                                                                    span="2"
+                                                                    style="margin-top:8px; margin-left:12px; margin-bottom:10px;"
+                                                                    ><Button
+                                                                        type="info"
+                                                                        @click="
+                                                                            saveShareCommentComment2(
+                                                                                shareComment0,
+                                                                                shareCommentComment0.id
+                                                                            )
+                                                                        "
+                                                                        ghost
+                                                                        style="width:80px;"
+                                                                        >评论</Button
+                                                                    ></Col
+                                                                >
+                                                            </Row>
+                                                        </Form>
+                                                    </Col>
+                                                </Row>
+                                                <!-- 二级评论的回复 -->
                                             </div>
                                         </Card>
                                         <!-- 二级评论区域 -->
@@ -497,7 +669,11 @@ export default {
             shareComment: {},
             shareCommentList: [],
             showShareCommentComment: 0,
-            shareCommentCommentList: []
+            shareCommentCommentList: [],
+            showShareCommentReply: 0,
+            shareCommentComment: {},
+            showShareCommentCommentReply:0,
+            shareCommentComment2: {},
         };
     },
     async created() {
@@ -641,7 +817,6 @@ export default {
                 );
                 console.log(res);
                 if (res.status == 201) {
-                    console.log(res);
                     Notice.success({
                         title: "评论成功"
                     });
@@ -649,7 +824,7 @@ export default {
                 } else {
                     Notice.warning({
                         title: "评论失败",
-                        desc: "请不要输入敏感词汇"
+                        desc: res.data.message
                     });
                 }
             }
@@ -670,6 +845,92 @@ export default {
          */
         likeCommentComment(shareCommentComment0) {
             ShareApi.likeShareCommentComment(shareCommentComment0);
+        },
+        /**
+         * 点击回复评论
+         */
+        onShowShareCommentReply(shareComment0) {
+            if (this.showShareCommentReply == shareComment0.id) {
+                this.showShareCommentReply = 0;
+            } else {
+                this.showShareCommentReply = shareComment0.id;
+            }
+        },
+        /**
+         * 点击回复评论的评论
+         */
+        onShowShareCommentCommentReply(shareCommentComment0) {
+            if (this.showShareCommentCommentReply == shareCommentComment0.id) {
+                this.showShareCommentCommentReply = 0;
+            } else {
+                this.showShareCommentCommentReply = shareCommentComment0.id;
+            }                
+        },
+        /**
+         * 评论一级的评论
+         */
+        async saveShareCommentComment(
+            shareComment0,
+            parentShareCommentCommentId
+        ) {
+            if (
+                this.shareCommentComment.content == "" ||
+                this.shareCommentComment.content == null
+            ) {
+                Notice.warning({
+                    title: "回复不能为空"
+                });
+            } else {
+                let res = await ShareApi.saveShareCommentComment(
+                    this.user.id,
+                    shareComment0.id,
+                    parentShareCommentCommentId,
+                    this.shareCommentComment.content
+                );
+                console.log(res);
+                if (res.status == 201) {
+                    Notice.success({
+                        title: "回复成功"
+                    });
+                    this.$router.go(0);
+                } else {
+                    Notice.warning({
+                        title: "回复失败",
+                        desc: res.data.message
+                    });
+                }
+            }
+        },
+        /**
+         * 评论二级的评论
+         */
+        async saveShareCommentComment2(shareComment0, parentShareCommentCommentId) {
+            if (
+                this.shareCommentComment2.content == "" ||
+                this.shareCommentComment2.content == null
+            ) {
+                Notice.warning({
+                    title: "回复不能为空"
+                });
+            } else {
+                let res = await ShareApi.saveShareCommentComment(
+                    this.user.id,
+                    shareComment0.id,
+                    parentShareCommentCommentId,
+                    this.shareCommentComment2.content
+                );
+                if (res.status == 201) {
+                    Notice.success({
+                        title: "回复成功"
+                    });
+                    this.$router.go(0);
+                } else {
+                    Notice.warning({
+                        title: "回复失败",
+                        desc: res.data.message
+                    });
+                }
+            }
         }
     }
 };

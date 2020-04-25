@@ -310,7 +310,6 @@ export default {
                     config
                 );
                 if (res.status == 201) {
-                    console.log(res);
                     Notice.success({
                         title: "分享成功"
                     });
@@ -320,9 +319,10 @@ export default {
                         title: "分享失败",
                         desc: "未登录"
                     });
-                } else {
-                    Notice.success({
-                        title: "分享失败"
+                } else if (res.status == 400){
+                    Notice.warning({
+                        title: "评论失败",
+                        desc: res.data.message
                     });
                 }
             }

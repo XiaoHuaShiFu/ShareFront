@@ -209,7 +209,8 @@ import {
     Form,
     FormItem,
     Input,
-    Icon
+    Icon,
+    Notice
     // Upload
 } from "view-design";
 import login from "./../service/Login";
@@ -333,6 +334,9 @@ export default {
     methods: {
         seedMessage() {},
         errorUnshow() {},
+        /**
+         * 登录
+         */
         async loginSubmit(name) {
             let values = this.$refs[name].model;
             let res = await login(values.username, values.password, "USER");
@@ -352,6 +356,9 @@ export default {
                 this.$router.push("/user/home");
             }
         },
+        /**
+         * 注册
+         */
         async registerSubmit(name) {
             let values = this.$refs[name].model;
             if (values.password != values.password2) {
@@ -372,7 +379,25 @@ export default {
                     true,
                     config
                 );
-                console.log(res);
+                if (res.status == 201) {
+                    Notice.success({
+                        title: "注册成功，即将跳转到主页。"
+                    });
+                    let res = await login(values.username, values.password, "USER");
+                    if (res.status == 201) {
+                        res = res.data;
+                        sessionStorage.setItem("token", res.token);
+                        sessionStorage.setItem("tokenType", res.type);
+                        sessionStorage.setItem("id", res.id);
+                        await UserApi.getUserAndSaveInSessionStorage(res.id);
+                        // 跳转到个人主页
+                        this.$router.push("/user/home");
+                    }
+                } else {
+                    Notice.success({
+                        title: "注册失败，请重试。"
+                    });
+                }
             }
         },
         getImage(file) {

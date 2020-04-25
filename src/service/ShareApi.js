@@ -77,17 +77,17 @@ ShareApi["saveShareComment"] = async (userId, shareId, content) => {
         content: content,
         shareId:shareId
     }, true);
-
     return res
 }
 
 /**
  * 创建分享评论的评论
  */
-ShareApi["saveShareCommentComment"] = async (userId, shareCommentId, content) => {
+ShareApi["saveShareCommentComment"] = async (userId, shareCommentId, parentShareCommentCommentId, content) => {
     let res = await Http.postShareCommentComment({
         userId: userId,
         content: content,
+        parentShareCommentCommentId: parentShareCommentCommentId,
         shareCommentId:shareCommentId
     }, true);
 
