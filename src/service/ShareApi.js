@@ -8,10 +8,11 @@ const ShareApi = {};
 /**
  * 查询分享
  */
-ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength) => {
+ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength, open=true) => {
     let res = await Http.listShares({
         pageNum: pageNum,
         pageSize: pageSize,
+        open:open,
         orderBy: orderBy
     });
     let shareList = res.data.list;
@@ -27,6 +28,30 @@ ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength) => {
     }
 
     return shareList
+}
+
+
+/**
+ * 查询我的分享
+ */
+ShareApi["listMyShares"] = async (pageNum, pageSize, orderBy, userId) => {
+    let res = await Http.listShares({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        orderBy: orderBy,
+        userId: userId
+    });
+    let shareList = res.data.list;
+    for (let i = 0; i < shareList.length; i++) {
+        shareList[i].shareTime = changeTime(
+            shareList[i].shareTime
+        );
+    }
+
+    return {
+        shareList: shareList,
+        total: res.data.total
+    }
 }
 
 /**
@@ -67,6 +92,31 @@ ShareApi["listShareCommentComments"] = async (pageNum, pageSize, shareCommentId)
     return shareCommentCommentList
 }
 
+/**
+ * 查询收藏列表
+ */
+ShareApi["listShareCollections"] = async (pageNum, pageSize, userId) => {
+    let res = await Http.listSharesCollections({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        userId: userId
+    });
+    let shareCollectionList = res.data.list;
+    let shareList = [];
+    for (let i = 0; i < shareCollectionList.length; i++) {
+        shareCollectionList[i].share.shareTime = changeTime(
+            shareCollectionList[i].share.shareTime
+        );
+        shareList.push(shareCollectionList[i].share)
+    }
+
+    return {
+        shareList: shareList,
+        total: res.data.total
+    }
+}
+
+
 
 /**
  * 创建分享评论
@@ -77,6 +127,19 @@ ShareApi["saveShareComment"] = async (userId, shareId, content) => {
         content: content,
         shareId:shareId
     }, true);
+    return res
+}
+
+/**
+ * 更新分享
+ */
+ShareApi["updateShare"] = async (id, userId, open) => {
+    let res = await Http.putShares({
+        userId: userId,
+        id:id,
+        open:open
+    }, true);
+    console.log(res)
     return res
 }
 

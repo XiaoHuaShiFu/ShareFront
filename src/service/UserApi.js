@@ -16,4 +16,13 @@ UserApi["getUser"]  = async (id)=>{
     return getUserResult
 }
 
+// UserApi["putUser"]  = async (id, isOpen)=>{
+//     let getUserResult = await Http.putUser({
+//         id:id,
+//         open:isOpen
+//     },true);
+//     return getUserResult
+// }
+
+
 export default UserApi

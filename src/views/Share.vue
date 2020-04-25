@@ -631,7 +631,7 @@ import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import UserApi from "./../service/UserApi";
 import ShareApi from "./../service/ShareApi";
-
+import adaptString from "./../utils/StringUtils";
 import {
     Row,
     Col,
@@ -703,6 +703,9 @@ export default {
                 that.pushShareCommentList();
             }
         };
+
+        // 修改页面标题
+        document.title = adaptString(this.share.content, 20) + " 来自" + this.share.user.nickName +  "-分享"
     },
     methods: {
         async saveShare() {

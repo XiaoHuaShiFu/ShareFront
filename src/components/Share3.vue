@@ -12,8 +12,21 @@
                 <Col span="21" class="share-content">
                     <Row
                         style="color:#555;display:flex; font-size:14px; font-weight:bold;"
-                        >{{ share.user.nickName }}</Row
                     >
+                        <Col span="23" style="text-align:left;">{{
+                            share.user.nickName
+                        }}</Col>
+
+                        <Col span="1" v-if="showDropdown" style="font-weight:normal;" @click="onClickDropDown0(share)">
+                            <Dropdown @on-click="onClickDropDown" @click="onClickDropDown0(share)">
+                                <Icon type="ios-arrow-down" @click="onClickDropDown0(share)"></Icon>
+                                <DropdownMenu slot="list" @click="onClickDropDown0(share)">
+                                    <DropdownItem name="仅自己可见" :selected="!share.open" @click="onClickDropDown0(share)">仅自己可见</DropdownItem>
+                                    <DropdownItem name="公开" :selected="share.open" @click="onClickDropDown0(share)">公开</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </Col>
+                    </Row>
                     <Row style="display:flex; font-size:13px;color:#aaa; ">{{
                         share.shareTime
                     }}</Row>
@@ -27,13 +40,13 @@
                             <Row
                                 style="display: flex; flex-direction:row; flex-wrap:wrap;"
                             >
-                                <div 
-                                        @click="onClickShareImage(image)"
+                                <div
+                                    @click="onClickShareImage(image)"
                                     style="margin:5px;"
                                     v-for="image in share.shareImageList"
                                     :key="image.id"
                                 >
-                                    <Avatar 
+                                    <Avatar
                                         @click="onClickShareImage(image)"
                                         :src="image.imageUrl"
                                         shape="square"
@@ -96,12 +109,16 @@
                                 style="font-size:14px; color:#888; line-height:30px;display: flex;flex-direction:row; 
                         justify-content: center;align-items: center;"
                             >
-                                <img @click="comment(share)"
+                                <img
+                                    @click="comment(share)"
                                     class="share-content-else-right-img"
                                     src="/icon/评论.png"
                                 />
                                 <div style="width:5px;"></div>
-                                <div class="hoverChange" @click="comment(share)">
+                                <div
+                                    class="hoverChange"
+                                    @click="comment(share)"
+                                >
                                     {{ share.comments }}
                                 </div>
                             </Row>
@@ -136,37 +153,58 @@
                                     src="/icon/赞2.png"
                                 />
                                 <div style="width:5px;"></div>
-                                <div class="hoverChange" @click="like(share)">{{ share.likes }}</div>
+                                <div class="hoverChange" @click="like(share)">
+                                    {{ share.likes }}
+                                </div>
                             </Row>
                         </Col>
                     </Row>
                 </Col>
             </Row>
-             <Modal title="查看图片" v-model="visible">
-            <img :src="visibleImageUrl" v-if="visible" style="width: 100%" />
-        </Modal>
+            <Modal title="查看图片" v-model="visible">
+                <img
+                    :src="visibleImageUrl"
+                    v-if="visible"
+                    style="width: 100%"
+                />
+            </Modal>
         </Card>
-       
     </div>
 </template>
 
 <script>
-import { Card, Col, Row, Avatar, Modal} from "view-design";
-
+import {
+    Card,
+    Col,
+    Row,
+    Avatar,
+    Modal,
+    Icon,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    Notice
+} from "view-design";
 import ShareApi from "./../service/ShareApi";
 export default {
     components: {
         Card,
         Col,
         Row,
-        Avatar,Modal
+        Avatar,
+        Modal,
+        Icon,
+        Dropdown,
+        DropdownMenu,
+        DropdownItem
     },
-    props: ["shareList", "handleReachBottom"],
+    props: ["shareList", "handleReachBottom", "showDropdown"],
     data() {
         return {
             visible: false,
             visibleImageUrl: "",
-        }
+            onClickDropDownShare: {}
+        };
     },
     methods: {
         // 点击收藏按钮
@@ -179,15 +217,55 @@ export default {
         },
         // 点击评论按钮
         comment(share) {
-            this.$router.push({path:"/share", query: {
-                shareId:share.id,
-            }});
+            this.$router.push({
+                path: "/share",
+                query: {
+                    shareId: share.id
+                }
+            });
         },
         // 点击图片
         onClickShareImage(image) {
             this.visibleImageUrl = image.imageUrl;
             this.visible = true;
         },
+        // 点击下拉事件
+        async onClickDropDown(name) {
+            if (name == "公开") {
+                let res = await ShareApi.updateShare(this.onClickDropDownShare.id, sessionStorage.getItem("id"),true);
+                console.log(res)
+                if (res.status == 200) {
+                    Notice.success({
+                        title: "公开成功"
+                    });
+                    this.$router.go(0);
+                } else {
+                    console.log(res)
+                    Notice.success({
+                        title: "公开失败",
+                        desc: "未登录"
+                    });
+                }
+            } else {
+                let res = await ShareApi.updateShare(this.onClickDropDownShare.id, sessionStorage.getItem("id"), false);
+                if (res.status == 200) {
+                    Notice.success({
+                        title: "隐藏成功"
+                    });
+                    this.$router.go(0);
+                } else {
+                    Notice.success({
+                        title: "隐藏失败",
+                        desc: "未登录"
+                    });
+                }
+            }
+        },
+        // 点击下拉按钮
+        onClickDropDown0(share) {
+            this.onClickDropDownShare = share;
+            
+        }
     }
 };
 </script>
@@ -203,7 +281,7 @@ export default {
 }
 
 .share-content {
-    margin-left:20px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: left;

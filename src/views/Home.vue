@@ -143,7 +143,7 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
-            let shareList0 = await ShareApi.listShares(this.pageNum + 1, 10, "share_time", 95);
+            let shareList0 = await ShareApi.listShares(this.pageNum + 1, 10, "share_time", 300);
             if (shareList0.length > 0) {
                 for (let i = 0; i < shareList0.length; i++) {
                     this.shareList.push(shareList0[i]);

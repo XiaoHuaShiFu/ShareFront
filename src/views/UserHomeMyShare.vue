@@ -20,71 +20,15 @@
                 </Menu>
             </Col>
             <Col span="10" class="centent-center">
-                <Card style="background:#F2F2F5">
-                    <Form ref="share" :model="share" inline>
-                        <Row
-                            ><Input
-                                :autosize="{ minRows: 2, maxRows: 9 }"
-                                v-model="share.content"
-                                maxlength="300"
-                                show-word-limit
-                                type="textarea"
-                                placeholder="分享些什么。。。"
-                                style="width:100%; "
-                                :rows="4"
-                        /></Row>
-                        <Row style="margin-top:10px;margin-bottom:-10px;">
-                            <Col
-                                span="17"
-                                style="display: flex; flex-direction: row; align-items: left;"
-                            >
-                                <UploadImageList
-                                    @receive="reveiveImageList"
-                                ></UploadImageList>
-                            </Col>
-                            <Col span="3" style="height:100%; margin-top:8px;">
-                                <Dropdown
-                                    trigger="click"
-                                    @on-click="changeOpen"
-                                    style="margin-top:12px;"
-                                >
-                                    <a href="javascript:void(0)">
-                                        <div v-if="share.open">
-                                            公开<Icon
-                                                type="ios-arrow-down"
-                                            ></Icon>
-                                        </div>
-                                        <div v-if="!share.open">
-                                            不公开<Icon
-                                                type="ios-arrow-down"
-                                            ></Icon>
-                                        </div>
-                                    </a>
-                                    <DropdownMenu slot="list">
-                                        <DropdownItem name="公开"
-                                            >公开</DropdownItem
-                                        >
-                                        <DropdownItem name="不公开"
-                                            >不公开</DropdownItem
-                                        >
-                                    </DropdownMenu>
-                                </Dropdown></Col
-                            >
-                            <Col span="4"
-                                ><Button
-                                    type="info"
-                                    @click="saveShare()"
-                                    ghost
-                                    style="width:80px;margin-top:15px;"
-                                    >发布</Button
-                                ></Col
-                            >
-                        </Row>
-                    </Form>
+                <Card style="background:#F2F2F5; font-weight:bold; color:#333">
+                    我的分享
+                    <div style="display:inline;font-weight:normal;">
+                        （共{{ total }}条）
+                    </div>
                 </Card>
                 <div style="height:10px"></div>
                 <Row>
-                    <Share :shareList="shareList"></Share>
+                    <Share :shareList="shareList" :showDropdown="true"></Share>
                 </Row>
             </Col>
             <div style="width:10px"></div>
@@ -95,8 +39,8 @@
                     </Row>
                     <Row
                         style="font-size:20px; font-weight:bold; line-height:25px;"
-                        >{{ user.nickName }}</Row
-                    >
+                        >{{ user.nickName }}
+                    </Row>
                     <Row
                         style="display: flex; flex-direction: row; justify-content: center;"
                     >
@@ -137,15 +81,23 @@
                     </Row>
                 </Card>
                 <div style="height:10px"></div>
-                <RankLike
-                    :shareListWithLike="shareLikeRankList"
-                    :title="shareLikeRankTitle"
-                ></RankLike>
-                <div style="height:10px"></div>
-                <RankNew
-                    :shareListWithNew="shareLikeNewList"
-                    :title="shareNewRankTitle"
-                ></RankNew>
+                <Card style="background:#F2F2F5">
+                    <p slot="title" style="font-weight:bold;text-align:left;">
+                        微博意见反馈
+                    </p>
+                    <div
+                        style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
+                    >
+                        <Row
+                            >欢迎使用微博并提出宝贵建议。请点击这里提交微博意见反馈。</Row
+                        >
+                        <Row style="color:#ff8140">微博常见问题</Row>
+                        <Row style="color:#ff8140">微博客服专区</Row>
+                        <Row style="color:#ff8140"
+                            >全国人大常委会《关于加强网络信息保护的决定》</Row
+                        >
+                    </div>
+                </Card>
             </Col>
         </Row>
         <Row class="footer">
@@ -159,9 +111,6 @@ import Footer from "@/components/Footer.vue";
 import Search from "@/components/Search.vue";
 
 import Share from "@/components/Share3.vue";
-import RankLike from "@/components/RankLike.vue";
-import RankNew from "@/components/RankNew.vue";
-import UploadImageList from "@/components/UploadImageList.vue";
 import UserApi from "./../service/UserApi";
 import ShareApi from "./../service/ShareApi";
 
@@ -173,12 +122,6 @@ import {
     MenuItem,
     Card,
     Avatar,
-    Input,
-    Button,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
-    Icon,
     Notice,
     Message
 } from "view-design";
@@ -193,25 +136,12 @@ export default {
         MenuItem,
         Card,
         Avatar,
-        RankLike,
-        RankNew,
-        Share,
-        Input,
-        Button,
-        Dropdown,
-        DropdownMenu,
-        DropdownItem,
-        Icon,
-        UploadImageList
+        Share
     },
     data() {
         return {
             list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             user: {},
-            shareLikeRankTitle: "分享点赞榜",
-            shareNewRankTitle: "最新分享",
-            shareLikeRankList: [],
-            shareLikeNewList: [],
             shareList: [],
             shareContent: "",
             share: {
@@ -221,21 +151,17 @@ export default {
             },
             pageNum: 1,
             hasNextPage: true,
-            activeName: "首页"
+            activeName: "我的分享",
+            total: 0
         };
     },
     async created() {
         // 加载页面数据
         let userId = sessionStorage.getItem("id");
         this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
-        this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 9);
-        this.shareLikeNewList = await ShareApi.listShares(
-            1,
-            10,
-            "share_time",
-            12
-        );
+        let result = await ShareApi.listMyShares(1, 10, "share_time", userId);
+        this.shareList = result.shareList;
+        this.total = result.total;
 
         // 监听触底事件
         let that = this;
@@ -322,16 +248,20 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
-            let shareList0 = await ShareApi.listShares(
+            let result = await ShareApi.listMyShares(
                 this.pageNum + 1,
                 10,
                 "share_time",
-                95
+                this.user.id
             );
+            let shareList0 = result.shareList;
+            this.total = result.total;
+
             if (shareList0.length > 0) {
                 for (let i = 0; i < shareList0.length; i++) {
-                    this.shareList.push(shareList0[i]);
+                    this.shareList.push(shareList0[i].share);
                 }
+
                 this.pageNum++;
             } else {
                 Message.success("没有更多的分享了！！！");

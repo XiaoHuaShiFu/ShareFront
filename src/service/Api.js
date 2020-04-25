@@ -4,6 +4,11 @@ const APIS = {
         method: 'get',
         url: '/v1/shares'
     },
+    // 收藏列表
+    listSharesCollections: {
+        method: 'get',
+        url: '/v1/shares/collections'
+    },
     listShareComments: {
         method: 'get',
         url: '/v1/shares/comments'
@@ -26,6 +31,10 @@ const APIS = {
     },
     postShares: {
         method: 'post',
+        url: '/v1/shares'
+    },
+    putShares: {
+        method: 'put',
         url: '/v1/shares'
     },
     postSharesLikes: {
@@ -75,6 +84,11 @@ const APIS = {
     },
     getUser: {
         method: 'get',
+        url: '/v1/users'
+    },
+    // 更新用户
+    putUser: {
+        method: 'put',
         url: '/v1/users'
     }
 }
