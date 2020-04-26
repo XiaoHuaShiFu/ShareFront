@@ -74,7 +74,7 @@ export default {
     }
 };
 </script>
-<style>
+<style scoped>
 .demo-upload-list {
     border: 1px dashed #cdcdcd;
     border-radius: 5px;

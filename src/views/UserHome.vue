@@ -233,7 +233,7 @@ export default {
             1,
             10,
             "share_time",
-            14
+            13
         );
 
         // 监听触底事件

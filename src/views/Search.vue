@@ -114,7 +114,7 @@ export default {
             1,
             10,
             "share_time",
-            14
+            13
         );
         let that = this;
         window.onscroll = function() {
@@ -174,7 +174,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
     background: #fff;
     width: 100%;

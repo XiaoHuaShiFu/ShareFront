@@ -1,5 +1,5 @@
 <template>
-    <Row style="width:100%;height:100%;">
+    <Row style="width:100%;height:100%;#fff">
         <Col span="4">
             <Menu active-name="敏感词管理" @on-select="onSelectMenu">
                 <MenuItem name="用户管理">
@@ -98,7 +98,7 @@ export default {
             ],
             data: [],
             pageNum: 1,
-            pageSize: 10,
+            pageSize: 14,
             hasNextPage: true,
             total: 1,
             showProgress: false,
@@ -210,3 +210,9 @@ export default {
     }
 };
 </script>
+
+<style>
+html {
+    background: #fff;
+}
+</style>

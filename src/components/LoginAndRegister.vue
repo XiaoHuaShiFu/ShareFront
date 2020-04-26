@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div >
         <Modal v-model="modal" width="400">
             <p slot="header" style="color:#f60;text-align:center"></p>
             <Row :gutter="32">
@@ -408,7 +408,7 @@ export default {
 </script>
 
 
-<style >
+<style>
 .ivu-tabs-nav {
     left: 50%;
     transform: translateX(-50%);

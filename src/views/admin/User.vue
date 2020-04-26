@@ -100,7 +100,7 @@ export default {
             ],
             data: [],
             pageNum: 1,
-            pageSize: 10,
+            pageSize: 14,
             hasNextPage: true,
             total: 1,
             showProgress: false,
@@ -217,3 +217,9 @@ export default {
     }
 };
 </script>
+
+<style>
+html {
+    background: #fff;
+}
+</style>
