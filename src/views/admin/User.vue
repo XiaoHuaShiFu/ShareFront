@@ -10,6 +10,10 @@
                     <Icon type="logo-wordpress" />
                     敏感词管理
                 </MenuItem>
+                <MenuItem name="操作记录">
+                    <Icon type="logo-wordpress" />
+                    操作记录
+                </MenuItem>
             </Menu>
         </Col>
         <Col span="20">
@@ -211,6 +215,10 @@ export default {
             } else if (name == "敏感词管理") {
                 this.$router.push({
                     path: "/admin/sensitive"
+                });
+            } else if (name == "操作记录") {
+                this.$router.push({
+                    path: "/admin/log"
                 });
             }
         }

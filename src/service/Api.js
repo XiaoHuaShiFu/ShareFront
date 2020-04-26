@@ -105,6 +105,10 @@ const APIS = {
         method: 'get',
         url: '/v1/admins'
     },
+    listAdminLog: {
+        method: 'get',
+        url: '/v1/admins/logs'
+    },
 
     // 敏感词
     postSensitiveWord: {

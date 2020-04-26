@@ -266,7 +266,8 @@ ShareApi["collect"] = async (share) => {
                 });
             } else {
                 Notice.warning({
-                    title: "收藏失败"
+                    title: "收藏失败",
+                    desc: "请登录后再重试"
                 });
             }
         } else {
@@ -315,7 +316,8 @@ ShareApi["like"] = async (share) => {
                 });
             } else {
                 Notice.warning({
-                    title: "点赞失败"
+                    title: "点赞失败",
+                    desc:"请登录后再重试"
                 });
             }
         } else {

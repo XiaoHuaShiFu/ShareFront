@@ -22,13 +22,16 @@ AdminApi["getAdmin"]  = async (id)=>{
     return getAdminResult
 }
 
-// AdminApi["putUser"]  = async (id, isOpen)=>{
-//     let getUserResult = await Http.putUser({
-//         id:id,
-//         open:isOpen
-//     },true);
-//     return getUserResult
-// }
+/**
+ * 查询管理员日志
+ */
+AdminApi["listAdminLogs"] = async (pageNum, pageSize) => {
+    let res = await Http.listAdminLog({
+        pageNum: pageNum,
+        pageSize: pageSize,
+    });
+    return res
+}
 
 
 export default AdminApi

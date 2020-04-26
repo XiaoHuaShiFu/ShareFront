@@ -1,44 +1,51 @@
 <template>
     <div class="container">
-        <Layout :style="{ width: '100%' }">
-            <Header :style="{ background: '#fff' }">
-                <Row align="middle" justify="space-around">
-                    <Col span="4">
-                        <div style="position: relative; top: 10px;">
-                            <a><img @click="toHome" src="/images/logo.jpg" width="150px" /></a>
-                        </div>
-                    </Col>
-                    <Col span="16"><Search></Search></Col>
-                    
-                    <Col span="4">
-                        <Menu
-                            style="width:136px"
-                            mode="horizontal"
-                            theme="light"
-                            :active-name="activeName"
-                            @on-select="onSelectMenu"
-                        >
-                            <LoginAndRegister
-                                :modal="showLoginAndRegister"
-                                :isLogin="registerOrLogin"
-                            ></LoginAndRegister>
-                            <div>
-                                <MenuItem name="register">
-                                    注册
-                                </MenuItem>
+        <Layout style="width: 100%;background:#fff;">
+            <Affix style="width:100%;">
+                <Header style="background: #fff;">
+                    <Row align="middle" justify="space-around">
+                        <Col span="4">
+                            <div style="position: relative; top: 10px;">
+                                <a
+                                    ><img
+                                        @click="toHome"
+                                        src="/images/logo.jpg"
+                                        width="150px"
+                                /></a>
                             </div>
+                        </Col>
+                        <Col span="16"><Search></Search></Col>
 
-                            <div>
-                                <MenuItem name="login">
-                                    登录
-                                </MenuItem>
-                            </div>
-                        </Menu>
-                    </Col>
-                </Row>
-            </Header>
+                        <Col span="4">
+                            <Menu
+                                style="width:136px"
+                                mode="horizontal"
+                                theme="light"
+                                :active-name="activeName"
+                                @on-select="onSelectMenu"
+                            >
+                                <LoginAndRegister
+                                    :modal="showLoginAndRegister"
+                                    :isLogin="registerOrLogin"
+                                ></LoginAndRegister>
+                                <div>
+                                    <MenuItem name="register">
+                                        注册
+                                    </MenuItem>
+                                </div>
 
-            <div style="width:100%">
+                                <div>
+                                    <MenuItem name="login">
+                                        登录
+                                    </MenuItem>
+                                </div>
+                            </Menu>
+                        </Col>
+                    </Row>
+                </Header>
+            </Affix>
+
+            <div style="width:100%; margin-top:5px;">
                 <Layout>
                     <Row class="center-container">
                         <Col span="11" class="center-content">
@@ -74,7 +81,16 @@ import RankNew from "@/components/RankNew.vue";
 import Footer from "@/components/Footer.vue";
 import LoginAndRegister from "@/components/LoginAndRegister.vue";
 import ShareApi from "./../service/ShareApi";
-import { Layout, Header, Menu, MenuItem, Row, Col, BackTop,Message } from "view-design";
+import {
+    Layout,
+    Header,
+    Menu,
+    MenuItem,
+    Row,
+    Col,
+    BackTop,
+    Message
+} from "view-design";
 export default {
     components: {
         Layout,
@@ -101,7 +117,7 @@ export default {
             activeName: "",
             showLoginAndRegister: false,
             registerOrLogin: "isLogin",
-            pageNum:1
+            pageNum: 1
         };
     },
     async created() {
@@ -110,7 +126,12 @@ export default {
         }
         this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
         this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 13);
-        this.shareLikeNewList = await ShareApi.listShares(1, 10, "share_time", 13);
+        this.shareLikeNewList = await ShareApi.listShares(
+            1,
+            10,
+            "share_time",
+            13
+        );
         let that = this;
         window.onscroll = function() {
             var scrollTop =
@@ -143,25 +164,30 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
-            let shareList0 = await ShareApi.listShares(this.pageNum + 1, 10, "share_time", 300);
+            let shareList0 = await ShareApi.listShares(
+                this.pageNum + 1,
+                10,
+                "share_time",
+                300
+            );
             if (shareList0.length > 0) {
                 for (let i = 0; i < shareList0.length; i++) {
                     this.shareList.push(shareList0[i]);
                 }
                 this.pageNum++;
             } else {
-                Message.success('没有更多的分享了！！！');
+                Message.success("没有更多的分享了！！！");
             }
         },
         /**
          * 首页跳转
          */
         toHome() {
-            console.log("dasdsa")
+            console.log("dasdsa");
             if (sessionStorage.getItem("token") != "anonymous") {
-                this.$router.push({path:'/user/home'});
+                this.$router.push({ path: "/user/home" });
             } else {
-                this.$router.push({path:'/'});
+                this.$router.push({ path: "/" });
             }
         }
     }

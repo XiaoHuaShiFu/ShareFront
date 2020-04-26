@@ -86,6 +86,14 @@ const routes = [
             title: '敏感词管理 分享-管理端',
         },
         component: () => import('../views/admin/Sensitive.vue')
+    },
+    {
+        path: '/admin/log',
+        name: 'AdminLog',
+        meta: {
+            title: '操作记录 分享-管理端',
+        },
+        component: () => import('../views/admin/Log.vue')
     }
 
 ]
