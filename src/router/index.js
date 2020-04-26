@@ -70,6 +70,22 @@ const routes = [
             title: '登录 分享-管理端',
         },
         component: () => import('../views/admin/Login.vue')
+    },
+    {
+        path: '/admin/user',
+        name: 'AdminUser',
+        meta: {
+            title: '用户管理 分享-管理端',
+        },
+        component: () => import('../views/admin/User.vue')
+    },
+    {
+        path: '/admin/sensitive',
+        name: 'AdminSensitive',
+        meta: {
+            title: '敏感词管理 分享-管理端',
+        },
+        component: () => import('../views/admin/Sensitive.vue')
     }
 
 ]

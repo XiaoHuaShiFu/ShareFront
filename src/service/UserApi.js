@@ -16,13 +16,28 @@ UserApi["getUser"]  = async (id)=>{
     return getUserResult
 }
 
-// UserApi["putUser"]  = async (id, isOpen)=>{
-//     let getUserResult = await Http.putUser({
-//         id:id,
-//         open:isOpen
-//     },true);
-//     return getUserResult
-// }
+/**
+ * 查询用户
+ */
+UserApi["listUsers"] = async (pageNum, pageSize, orderBy) => {
+    let res = await Http.listUsers({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        orderBy: orderBy
+    });
 
+    return res.data
+}
+
+/**
+ * 更新用户
+ */
+UserApi["updateUser"] = async (id, available) => {
+    let res = await Http.putUser({
+        id:id,
+        available:available
+    }, true);
+    return res
+}
 
 export default UserApi

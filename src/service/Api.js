@@ -86,11 +86,40 @@ const APIS = {
         method: 'get',
         url: '/v1/users'
     },
+    listUsers: {
+        method: 'get',
+        url: '/v1/users'
+    },
     // 更新用户
     putUser: {
         method: 'put',
         url: '/v1/users'
+    },
+
+    // 管理员
+    postAdmin: {
+        method: 'post',
+        url: '/v1/admins'
+    },
+    getAdmin: {
+        method: 'get',
+        url: '/v1/admins'
+    },
+
+    // 敏感词
+    postSensitiveWord: {
+        method: 'post',
+        url: '/v1/sensitive_words'
+    },
+    listSensitiveWords: {
+        method: 'get',
+        url: '/v1/sensitive_words'
+    },
+    deleteSensitiveWord: {
+        method: 'delete',
+        url: '/v1/sensitive_words'
     }
+    
 }
 
 export default APIS
