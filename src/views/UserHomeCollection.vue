@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Header></Header>
-        <Row class="content">
+        <Row class="content" style="margin-top:10px;">
             <Col span="4.2" class="centent-left">
                 <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
                     <MenuItem name="首页">
@@ -152,7 +152,6 @@ import {
     Card,
     Avatar,
     Notice,
-    Message
 } from "view-design";
 export default {
     components: {
@@ -292,7 +291,7 @@ export default {
 
                 this.pageNum++;
             } else {
-                Message.success("没有更多的收藏了！！！");
+                this.$Message.success("没有更多的收藏了！！！");
             }
         },
         /**

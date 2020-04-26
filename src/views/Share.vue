@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Header></Header>
-        <Row class="content">
+        <Row class="content" style="margin-top:10px;">
             <Col span="13" class="centent-center">
                 <Row>
                     <Card
@@ -23,7 +23,7 @@
                                 <Row>
                                     <Col span="24">
                                         <Row
-                                            style="display: flex; color:#333;font-size:14px;text-align:left;"
+                                            style="display: flex; color:#333;font-size:14px;text-align:left;white-space: pre-wrap"
                                         >
                                             {{ share.content }}
                                         </Row>
@@ -228,16 +228,18 @@
                                 </Col>
                                 <Col style="margin-left:40px; width:95%;">
                                     <Row
-                                        style="font-size:14px; display:flex; flex-direction:row ; justify-content: flex-start; "
+                                        style="font-size:14px; display:flex; flex-direction:row ; justify-content: flex-start; text-align:left;"
                                     >
                                         <div
-                                            style="color:#eb7350;display:inline;"
+                                            style="color:#333; display:inline; text-align:left;"
                                         >
-                                            {{ shareComment0.user.nickName }}
-                                        </div>
-                                        <div
-                                            style="color:#333; display:inline;"
-                                        >
+                                            <div
+                                                style="color:#eb7350;display:inline;"
+                                            >
+                                                {{
+                                                    shareComment0.user.nickName
+                                                }}
+                                            </div>
                                             ：{{ shareComment0.content }}
                                         </div>
                                     </Row>
@@ -422,26 +424,29 @@
                                                 <Row
                                                     style="font-size:14px; display:flex; flex-direction:row ; justify-content: flex-start; "
                                                 >
-                                                    <div style="color:#eb7350;">
+                                                    
+                                                    <div style="display:inline; text-align:left;"
+                                                        v-if="
+                                                            shareCommentComment0.parentShareCommentCommentId !=
+                                                                0
+                                                        "
+                                                    >
+                                                        
+                                                    <div style="color:#333; display:inline; text-align:left;">
+                                                        <div style="color:#eb7350;display:inline; text-align:left;">
                                                         {{
                                                             shareCommentComment0
                                                                 .user.nickName
                                                         }}：
                                                     </div>
                                                     <div
-                                                        v-if="
-                                                            shareCommentComment0.parentShareCommentCommentId !=
-                                                                0
-                                                        "
-                                                    >
-                                                        <div
-                                                            style="color:#333; display:inline;"
+                                                            style="color:#333; display:inline; text-align:left;"
                                                         >
                                                             回复
                                                         </div>
 
                                                         <div
-                                                            style="color:#eb7350; display:inline;"
+                                                            style="color:#eb7350; display:inline; text-align:left;"
                                                         >
                                                             @{{
                                                                 shareCommentComment0
@@ -450,12 +455,11 @@
                                                             }}
                                                         </div>
                                                         <div
-                                                            style="color:#333; display:inline;"
+                                                            style="color:#333; display:inline; text-align:left;"
                                                         >
                                                             :
                                                         </div>
                                                     </div>
-                                                    <div style="color:#333; ">
                                                         {{
                                                             shareCommentComment0.content
                                                         }}
@@ -480,12 +484,15 @@
                                                         style="display: flex; flex-direction:row; 
                         justify-content: center;align-items: center;height:100%;"
                                                     >
-                                                    <div @click="
-                                                    onShowShareCommentCommentReply(
-                                                        shareCommentComment0
-                                                    )
-                                                ">回复</div>
-                                                        
+                                                        <div
+                                                            @click="
+                                                                onShowShareCommentCommentReply(
+                                                                    shareCommentComment0
+                                                                )
+                                                            "
+                                                        >
+                                                            回复
+                                                        </div>
                                                     </Col>
 
                                                     <Col
@@ -547,7 +554,7 @@
                                                     </Col>
                                                 </Row>
                                                 <!-- 二级评论的回复 -->
-                                                <Row >
+                                                <Row>
                                                     <Col
                                                         v-if="
                                                             showShareCommentCommentReply ==
@@ -672,8 +679,8 @@ export default {
             shareCommentCommentList: [],
             showShareCommentReply: 0,
             shareCommentComment: {},
-            showShareCommentCommentReply:0,
-            shareCommentComment2: {},
+            showShareCommentCommentReply: 0,
+            shareCommentComment2: {}
         };
     },
     async created() {
@@ -705,7 +712,11 @@ export default {
         };
 
         // 修改页面标题
-        document.title = adaptString(this.share.content, 20) + " 来自" + this.share.user.nickName +  "-分享"
+        document.title =
+            adaptString(this.share.content, 20) +
+            " 来自" +
+            this.share.user.nickName +
+            "-分享";
     },
     methods: {
         async saveShare() {
@@ -867,7 +878,7 @@ export default {
                 this.showShareCommentCommentReply = 0;
             } else {
                 this.showShareCommentCommentReply = shareCommentComment0.id;
-            }                
+            }
         },
         /**
          * 评论一级的评论
@@ -907,7 +918,10 @@ export default {
         /**
          * 评论二级的评论
          */
-        async saveShareCommentComment2(shareComment0, parentShareCommentCommentId) {
+        async saveShareCommentComment2(
+            shareComment0,
+            parentShareCommentCommentId
+        ) {
             if (
                 this.shareCommentComment2.content == "" ||
                 this.shareCommentComment2.content == null

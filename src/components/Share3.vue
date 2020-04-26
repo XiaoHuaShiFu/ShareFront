@@ -61,7 +61,7 @@
                         <Col span="24">
                             <Row
                                 style="display: flex; color:#333;font-size:14px;text-align:left;"
-                                >{{ share.content }}</Row
+                                ><div style="white-space: pre-wrap">{{ share.content }}</div></Row
                             >
 
                             <Row

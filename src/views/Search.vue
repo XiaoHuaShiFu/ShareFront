@@ -29,7 +29,7 @@
             <Row style="width:100%">
                 <Row>
                     <Row class="center-container">
-                        <Col span="11" class="center-content">
+                        <Col span="13" class="center-content">
                             <Share :shareList="shareList"></Share>
                             <Row v-if="shareList.length == 0">
                                 <Alert type="info" show-icon>

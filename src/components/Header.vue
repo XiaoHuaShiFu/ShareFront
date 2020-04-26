@@ -1,5 +1,5 @@
 <template>
-    <Affix style="width:100%">
+    <Affix style="width:100%;">
         <Row class="header" justify="center" align="middle">
             <Col span="4" @click="toHome"
                 ><a
@@ -8,20 +8,20 @@
             </Col>
             <Col span="15"> <Search></Search></Col>
             <Col span="5">
-                <a>
-                    <Icon
-                        type="md-settings"
-                        size="25"
-                        style="display:inline;"
-                        color="#777"
-                    />
-                </a>
-                <div style="margin-left:10px;display:inline;"></div>
+                
                 <Badge :count="messageCount">
                     <a href="#" @click="toMessage">
                         <Icon type="ios-mail-outline" size="30" color="#777" />
                     </a>
                 </Badge>
+                <div style="margin-left:10px;display:inline;"></div>
+                <a  @click="toOut">
+                    <img
+                        src="/icon/退出登录.png"
+                        style="width:20px;display:inline;"
+                        color="#777"
+                    />
+                </a>
             </Col>
         </Row>
     </Affix>
@@ -42,7 +42,7 @@ export default {
     },
     data() {
         return {
-            messageCount: 1
+            messageCount: 0
         };
     },
     async created() {
@@ -64,6 +64,16 @@ export default {
          */
         toMessage() {
             this.$router.push({ path: "/user/home/mymessage" });
+        },
+        /**
+         * 退出登录
+         */
+        toOut() {
+            sessionStorage.clear();
+            this.$Notice.success({
+                title: "正在退出登录中。。。",
+            });
+            this.$router.push({ path: "/" });
         }
     }
 };

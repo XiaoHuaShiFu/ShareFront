@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+    <div class="container" >
         <Header></Header>
-        <Row class="content">
+        <Row class="content" style="margin-top:10px;">
             <Col span="4.2" class="centent-left">
                 <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
                     <MenuItem name="首页">
@@ -18,7 +18,7 @@
                     </MenuItem>
                 </Menu>
             </Col>
-            <Col span="10" class="centent-center">
+            <Col span="12" class="centent-center">
                 <Card style="background:#F2F2F5">
                     <Form ref="share" :model="share" inline>
                         <Row
@@ -321,11 +321,12 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
+            console.log("userHome pushShareList")
             let shareList0 = await ShareApi.listShares(
                 this.pageNum + 1,
                 10,
                 "share_time",
-                95
+                300
             );
             if (shareList0.length > 0) {
                 for (let i = 0; i < shareList0.length; i++) {
@@ -362,7 +363,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .container {
     height: 100%;
     width: 100%;

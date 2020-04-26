@@ -2,7 +2,7 @@
     <div class="container">
         <Layout style="width: 100%;background:#fff;">
             <Affix style="width:100%;">
-                <Header style="background: #fff;">
+                <Header style="background: #fff;border-bottom: 1px solid #eee;">
                     <Row align="middle" justify="space-around">
                         <Col span="4">
                             <div style="position: relative; top: 10px;">
@@ -45,7 +45,7 @@
                 </Header>
             </Affix>
 
-            <div style="width:100%; margin-top:5px;">
+            <div style="width:100%; ">
                 <Layout>
                     <Row class="center-container">
                         <Col span="11" class="center-content">
@@ -89,7 +89,6 @@ import {
     Row,
     Col,
     BackTop,
-    Message
 } from "view-design";
 export default {
     components: {
@@ -164,6 +163,7 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
+            console.log("dasdasdas")
             let shareList0 = await ShareApi.listShares(
                 this.pageNum + 1,
                 10,
@@ -176,7 +176,7 @@ export default {
                 }
                 this.pageNum++;
             } else {
-                Message.success("没有更多的分享了！！！");
+                this.$Message.success("没有更多的分享了！！！");
             }
         },
         /**

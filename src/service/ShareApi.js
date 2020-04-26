@@ -21,6 +21,7 @@ ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength, open=
             shareList[i].content,
             contentLength
         );
+
         shareList[i].shareTime = changeTime(
             shareList[i].shareTime
         );

@@ -5,4 +5,6 @@ const adaptString = (s, len)=>{
     return s;
 }
 
+
+
 export default adaptString
