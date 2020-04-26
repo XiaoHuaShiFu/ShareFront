@@ -122,7 +122,13 @@ const APIS = {
     deleteSensitiveWord: {
         method: 'delete',
         url: '/v1/sensitive_words'
-    }
+    },
+
+    // 用户通知
+    listUserNotices: {
+        method: 'get',
+        url: '/v1/users/notices'
+    },
     
 }
 

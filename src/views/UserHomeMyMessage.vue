@@ -3,7 +3,11 @@
         <Header></Header>
         <Row class="content">
             <Col span="4.2" class="centent-left">
-                <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
+                <Menu
+                    :active-name="activeName"
+                    @on-select="onSelectMenu"
+                    style="z-index:1"
+                >
                     <MenuItem name="首页">
                         首页
                     </MenuItem>
@@ -27,7 +31,45 @@
                 </Card>
                 <div style="height:10px"></div>
                 <Row>
-                    <Share :shareList="shareList" :showDropdown="true"></Share>
+                    <!-- 开始 -->
+                    <!-- <Col span="24" style="height:50px;"
+                            ><Row>{{ userNotice.content }} </Row>
+                            <Row>{{ userNotice.noticeTime }}</Row>
+                            {{ userNotice.keyValue }}
+                        </Col> -->
+                    <Card
+                        v-for="userNotice in userNoticeList"
+                        :key="userNotice.id"
+                        style="width:100%;height:auto; background:#F2F2F5;margin-bottom:10px;"
+                    >
+                        <Row class="share-container">
+                            <Col span="3" class="avatar">
+                                <Avatar
+                                    :src="userNotice.keyValue.avatarUrl"
+                                    size="60"
+                                />
+                            </Col>
+                            <Col span="21" class="share-content">
+                                <Row
+                                    style="color:#555;display:flex; font-size:14px; font-weight:bold; margin-left:1px;"
+                                >
+                                    {{ userNotice.keyValue.nickName }}
+                                </Row>
+                                <Row
+                                    style="display:flex; font-size:13px;color:#aaa; "
+                                    >{{ userNotice.noticeTime }}</Row
+                                >
+                                <Row>
+                                    <a
+                                        @click="toNoticePage(userNotice)"
+                                        style="display: flex; color:#333;font-size:14px;text-align:left;"
+                                        >{{ userNotice.content }}</a
+                                    >
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Card>
+                    <!-- 结束 -->
                 </Row>
             </Col>
             <div style="width:10px"></div>
@@ -109,46 +151,19 @@
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 
-import Share from "@/components/Share3.vue";
 import UserApi from "./../service/UserApi";
-import ShareApi from "./../service/ShareApi";
-
-import {
-    Row,
-    Col,
-    BackTop,
-    Menu,
-    MenuItem,
-    Card,
-    Avatar,
-    Notice,
-    Message
-} from "view-design";
+import UserNoticeApi from "./../service/UserNoticeApi";
 export default {
     components: {
         Footer,
-        Row,
-        Col,
-        BackTop,
-        Menu,
-        MenuItem,
-        Card,
-        Avatar,
-        Share,
         Header
     },
     data() {
         return {
-            list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             user: {},
-            shareList: [],
-            shareContent: "",
-            share: {
-                content: "",
-                open: true,
-                imageList: []
-            },
+            userNoticeList: [],
             pageNum: 1,
+            pageSize: 10,
             hasNextPage: true,
             activeName: "我的消息",
             total: 0
@@ -158,9 +173,14 @@ export default {
         // 加载页面数据
         let userId = sessionStorage.getItem("id");
         this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
-        let result = await ShareApi.listMyShares(1, 10, "share_time", userId);
-        this.shareList = result.shareList;
-        this.total = result.total;
+        let result = await UserNoticeApi.listUserNotices(
+            1,
+            this.pageSize,
+            userId,
+            false
+        );
+        this.userNoticeList = result.data.list;
+        this.total = result.data.total;
 
         // 监听触底事件
         let that = this;
@@ -175,95 +195,32 @@ export default {
                 document.body.scrollHeight;
 
             if (scrollTop + windowHeight == scrollHeight) {
-                that.pushShareList();
+                that.pushUserNoticeList();
             }
         };
-
-        // 禁止后退
-        history.pushState(null, null, document.URL);
-        window.addEventListener("popstate", function() {
-            history.pushState(null, null, document.URL);
-        });
     },
     methods: {
-        async saveShare() {
-            if (this.share.imageList.length < 1) {
-                Notice.warning({
-                    title: "分享的图片数量不能少于1"
-                });
-            } else {
-                console.log(this.share.imageList);
-                let config = {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                };
-                let imageList0 = [];
-                for (let i = 0; i < this.share.imageList.length; i++) {
-                    imageList0.push(this.share.imageList[i].file);
-                }
-                let res = await this.$Http.postShares(
-                    {
-                        userId: sessionStorage.getItem("id"),
-                        content: this.share.content,
-                        open: this.share.open,
-                        imageList: imageList0
-                    },
-                    true,
-                    config
-                );
-                if (res.status == 201) {
-                    Notice.success({
-                        title: "分享成功"
-                    });
-                    this.$router.go(0);
-                } else if (res.status == 403) {
-                    Notice.success({
-                        title: "分享失败",
-                        desc: "未登录"
-                    });
-                } else if (res.status == 400) {
-                    Notice.warning({
-                        title: "评论失败",
-                        desc: res.data.message
-                    });
-                }
-            }
-        },
-        changeOpen(open) {
-            if (open == "公开") {
-                this.share.open = true;
-            } else if (open == "不公开") {
-                this.share.open = false;
-            }
-        },
-        /**
-         * 接收图片列表
-         */
-        reveiveImageList(shareImageList) {
-            this.share.imageList = shareImageList;
-        },
         /**
          * 加载下一页
          */
-        async pushShareList() {
-            let result = await ShareApi.listMyShares(
+        async pushUserNoticeList() {
+            let result = await UserNoticeApi.listUserNotices(
                 this.pageNum + 1,
-                10,
-                "share_time",
-                this.user.id
+                this.pageSize,
+                this.user.id,
+                false
             );
-            let shareList0 = result.shareList;
-            this.total = result.total;
+            let userNoticeList0 = result.data.list;
+            this.total = result.data.total;
 
-            if (shareList0.length > 0) {
-                for (let i = 0; i < shareList0.length; i++) {
-                    this.shareList.push(shareList0[i].share);
+            if (userNoticeList0.length > 0) {
+                for (let i = 0; i < userNoticeList0.length; i++) {
+                    this.userNoticeList.push(userNoticeList0[i]);
                 }
 
                 this.pageNum++;
             } else {
-                Message.success("没有更多的分享了！！！");
+                this.$Message.success("没有更多的通知了！！！");
             }
         },
         /**
@@ -287,6 +244,17 @@ export default {
                     path: "/user/home/mymessage"
                 });
             }
+        },
+        /**
+         * 跳转到消息的对应页面
+         */
+        toNoticePage(userNotice) {
+            this.$router.push({
+                path: "/share",
+                query: {
+                    shareId: userNotice.keyValue.shareId
+                }
+            });
         }
     }
 };
