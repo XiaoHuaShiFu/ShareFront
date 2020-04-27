@@ -424,42 +424,64 @@
                                                 <Row
                                                     style="font-size:14px; display:flex; flex-direction:row ; justify-content: flex-start; "
                                                 >
-                                                    
-                                                    <div style="display:inline; text-align:left;"
+                                                    <div
+                                                        style="display:inline; text-align:left;"
                                                         v-if="
                                                             shareCommentComment0.parentShareCommentCommentId !=
                                                                 0
                                                         "
                                                     >
-                                                        
-                                                    <div style="color:#333; display:inline; text-align:left;">
-                                                        <div style="color:#eb7350;display:inline; text-align:left;">
-                                                        {{
-                                                            shareCommentComment0
-                                                                .user.nickName
-                                                        }}：
-                                                    </div>
-                                                    <div
+                                                        <div
                                                             style="color:#333; display:inline; text-align:left;"
                                                         >
-                                                            回复
-                                                        </div>
+                                                            <div
+                                                                style="color:#eb7350;display:inline; text-align:left;"
+                                                            >
+                                                                {{
+                                                                    shareCommentComment0
+                                                                        .user
+                                                                        .nickName
+                                                                }}：
+                                                            </div>
+                                                            <div
+                                                                style="color:#333; display:inline; text-align:left;"
+                                                            >
+                                                                回复
+                                                            </div>
 
-                                                        <div
-                                                            style="color:#eb7350; display:inline; text-align:left;"
-                                                        >
-                                                            @{{
-                                                                shareCommentComment0
-                                                                    .parentShareCommentCommentUser
-                                                                    .nickName
-                                                            }}
+                                                            <div
+                                                                style="color:#eb7350; display:inline; text-align:left;"
+                                                            >
+                                                                @{{
+                                                                    shareCommentComment0
+                                                                        .parentShareCommentCommentUser
+                                                                        .nickName
+                                                                }}
+                                                            </div>
+                                                            <div
+                                                                style="color:#333; display:inline; text-align:left;"
+                                                            >
+                                                                :
+                                                            </div>
                                                         </div>
+                                                        {{
+                                                            shareCommentComment0.content
+                                                        }}
+                                                    </div>
+                                                    <div v-else>
                                                         <div
                                                             style="color:#333; display:inline; text-align:left;"
                                                         >
-                                                            :
+                                                            <div
+                                                                style="color:#eb7350;display:inline; text-align:left;"
+                                                            >
+                                                                {{
+                                                                    shareCommentComment0
+                                                                        .user
+                                                                        .nickName
+                                                                }}：
+                                                            </div>
                                                         </div>
-                                                    </div>
                                                         {{
                                                             shareCommentComment0.content
                                                         }}
@@ -847,12 +869,14 @@ export default {
          * 加载评论的评论
          */
         async onShowShareCommentComment(shareComment0) {
+            console.log(shareComment0);
             this.shareCommentCommentList = await ShareApi.listShareCommentComments(
                 1,
                 10000,
                 shareComment0.id
             );
             this.showShareCommentComment = shareComment0.id;
+            console.log(shareComment0);
         },
         /**
          * 点赞评论的评论
