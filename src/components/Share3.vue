@@ -38,16 +38,23 @@
                                         @click="onClickDropDown0(share)"
                                     >
                                         <DropdownItem
+                                            v-if="share.open"
                                             name="仅自己可见"
                                             :selected="!share.open"
                                             @click="onClickDropDown0(share)"
-                                            >仅自己可见</DropdownItem
+                                            >设置为仅自己可见</DropdownItem
                                         >
                                         <DropdownItem
+                                            v-if="!share.open"
                                             name="公开"
                                             :selected="share.open"
                                             @click="onClickDropDown0(share)"
-                                            >公开</DropdownItem
+                                            >设置为所有人可见</DropdownItem
+                                        >
+                                        <DropdownItem
+                                            name="谁赞了我"
+                                            @click="onClickDropDown0(share)"
+                                            >谁赞了我</DropdownItem
                                         >
                                     </DropdownMenu>
                                 </Dropdown>
@@ -61,7 +68,9 @@
                         <Col span="24">
                             <Row
                                 style="display: flex; color:#333;font-size:14px;text-align:left;"
-                                ><div style="white-space: pre-wrap">{{ share.content }}</div></Row
+                                ><div style="white-space: pre-wrap">
+                                    {{ share.content }}
+                                </div></Row
                             >
 
                             <Row
@@ -206,6 +215,29 @@
                     style="width: 100%"
                 />
             </Modal>
+            <Modal width="300" v-model="showLikeList" title="点赞列表">
+                <Row
+                    v-for="like0 in likeList"
+                    :key="like0.id"
+                    style="height:40px;margin-top:10px;"
+                >
+                    <Col span="4">
+                        <Avatar :src="like0.user.avatarUrl"></Avatar>
+                    </Col>
+                    <Col span="20" style="border-bottom:1px solid #eee;height:40px;">
+                        <Row>
+                            <Col
+                                span="22"
+                                style="display:flex;flex-direction:row;justify-content: left;
+                    text-align:left;line-height:30px;"
+                            >
+                                {{ like0.user.nickName }}
+                            </Col>
+                            <Col span="2"><Icon type="md-thumbs-up"/></Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Modal>
         </Card>
     </div>
 </template>
@@ -241,7 +273,9 @@ export default {
         return {
             visible: false,
             visibleImageUrl: "",
-            onClickDropDownShare: {}
+            onClickDropDownShare: {},
+            showLikeList: false,
+            likeList: []
         };
     },
     methods: {
@@ -275,7 +309,6 @@ export default {
                     sessionStorage.getItem("id"),
                     true
                 );
-                console.log(res);
                 if (res.status == 200) {
                     Notice.success({
                         title: "公开成功"
@@ -288,7 +321,7 @@ export default {
                         desc: "未登录"
                     });
                 }
-            } else {
+            } else if (name == "仅自己可见") {
                 let res = await ShareApi.updateShare(
                     this.onClickDropDownShare.id,
                     sessionStorage.getItem("id"),
@@ -305,6 +338,14 @@ export default {
                         desc: "未登录"
                     });
                 }
+            } else if (name == "谁赞了我") {
+                let result = await ShareApi.listShareLikes(
+                    1,
+                    9999,
+                    this.onClickDropDownShare.id
+                );
+                this.likeList = result.data.list;
+                this.showLikeList = true;
             }
         },
         // 点击下拉按钮

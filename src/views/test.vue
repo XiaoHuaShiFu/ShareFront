@@ -1,113 +1,38 @@
 <template>
-    <div>
-        <div
-            class="demo-upload-list"
-            v-for="shareImage in shareImageList"
-            :key="shareImage.url"
-        >
-            <img :src="shareImage.url" />
-            <div class="demo-upload-list-cover">
-                <Icon
-                    type="ios-trash-outline"
-                    @click.native="handleRemove(shareImage)"
-                ></Icon>
-            </div>
-        </div>
-        
-        <Upload v-if="shareImageList.length < 6"
-            ref="upload"
-            :show-upload-list="false"
-            :format="['jpg', 'jpeg', 'png']"
-            :max-size="10000"
-            :on-format-error="handleFormatError"
-            :on-exceeded-size="handleMaxSize"
-            :before-upload="addImage"
-            multiple
-            type="drag"
-            action="//jsonplaceholder.typicode.com/posts/"
-            style="display: inline-block;width:58px;"
-        >
-            <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="ios-camera" size="20"></Icon>
-            </div>
-        </Upload>
-        <Modal title="View Image" v-model="visible">
-            <img
-                :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
-                v-if="visible"
-                style="width: 100%"
-            />
-        </Modal>
-    </div>
+    <Card style="width:300px;height:535px;font-size:20px;margin-left:500px;margin-top:100px;">
+        <Row style="height:50px;line-height:50px;border:1px solid #ccc">浏览器</Row>
+        <Row style="height:50px;line-height:50px;border:1px solid #ccc">Vue-cli</Row>
+        <Row style="height:50px;line-height:50px;border:1px solid #ccc">Nginx</Row>
+        <Row style="height:250px;">
+            <Col span="4" style="line-height:124px; border:1px solid #ccc">日志服务</Col>
+            <Col span="16" >
+                <Row style="line-height:48px;border:1px solid #ccc">TokenAuth</Row>
+                <Row style="line-height:48px;border:1px solid #ccc">Controller</Row>
+                <Row >
+                    <Col span="20" style="line-height:48px;border:1px solid #ccc;">
+                        Service
+                    </Col>
+                    <Col span="4" style="line-height:35px;font-size:58px;">↑</Col>
+                </Row>
+                <Row >
+                    <Col span="4" style="line-height:35px;font-size:58px;">↓</Col>
+                    <Col span="20" style="line-height:48px;border:1px solid #ccc;">
+                        Manager
+                    </Col>
+                </Row>
+                <Row style="line-height:48px;border:1px solid #ccc">DAO</Row>
+            </Col>
+            <Col span="4" style="line-height:125px;">
+                <Row style="line-height:41px;border:1px solid #ccc">缓存服务redis</Row>
+                <Row style="line-height:41px;border:1px solid #ccc">静态资源FTP</Row>
+            </Col>
+        </Row>
+        <Row style="height:50px;line-height:50px;border:1px solid #ccc">MySQL</Row>
+        <Row style="height:50px;line-height:50px;border:1px solid #ccc">操作系统</Row>
+    </Card>
 </template>
 <script>
-import { Modal, Upload, Icon, Notice } from "view-design";
-export default {
-    components: {
-        Modal,
-        Upload,
-        Icon
-    },
-    data() {
-        return {
-            imgName: "",
-            visible: false,
-            uploadList: [],
-            shareImageList: []
-        };
-    },
-    methods: {
-        /**
-         * 删除一张图片
-         */
-        handleRemove(file) {
-            this.shareImageList.splice(this.shareImageList.indexOf(file), 1);
-            this.$emit("receive", this.shareImageList);
-        },
-        /**
-         * 图片格式错误提示
-         */
-        handleFormatError() {
-            Notice.warning({
-                title: "图片格式不对",
-                desc: "正确的图片格式应该是jpg或png"
-            });
-        },
-        /**
-         * 图片大小错误提示
-         */
-        handleMaxSize() {
-            Notice.warning({
-                title: "图片太大",
-                desc: "图片尺寸应该小于10MB"
-            });
-        },
-        /**
-         * 添加图片处理
-         */
-        addImage(file) {
-            const check = this.shareImageList.length < 6;
-            if (!check) {
-                Notice.warning({
-                    title: "最多分享6张图片。"
-                });
-            } else {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onloadend = () => {
-                    this.shareImageList.push({
-                        url: reader.result,
-                        file
-                    });
-                };
-            }
-            this.$emit("receive", this.shareImageList);
-        }
-    },
-    mounted() {
-        this.uploadList = this.$refs.upload.fileList;
-    }
-};
+export default {};
 </script>
 <style scoped>
 .demo-upload-list {

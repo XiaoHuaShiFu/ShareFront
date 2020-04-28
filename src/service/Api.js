@@ -37,6 +37,10 @@ const APIS = {
         method: 'put',
         url: '/v1/shares'
     },
+    listSharesLikes: {
+        method: 'get',
+        url: '/v1/shares/likes'
+    },
     postSharesLikes: {
         method: 'post',
         url: '/v1/shares/likes'

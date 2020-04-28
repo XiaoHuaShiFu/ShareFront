@@ -82,16 +82,16 @@
                 <div style="height:10px"></div>
                 <Card style="background:#F2F2F5">
                     <p slot="title" style="font-weight:bold;text-align:left;">
-                        微博意见反馈
+                        分享意见反馈
                     </p>
                     <div
                         style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
                     >
                         <Row
-                            >欢迎使用微博并提出宝贵建议。请点击这里提交微博意见反馈。</Row
+                            >欢迎使用分享并提出宝贵建议。请点击这里提交分享意见反馈。</Row
                         >
-                        <Row style="color:#ff8140">微博常见问题</Row>
-                        <Row style="color:#ff8140">微博客服专区</Row>
+                        <Row style="color:#ff8140">分享常见问题</Row>
+                        <Row style="color:#ff8140">分享客服专区</Row>
                         <Row style="color:#ff8140"
                             >全国人大常委会《关于加强网络信息保护的决定》</Row
                         >

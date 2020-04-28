@@ -199,6 +199,18 @@ ShareApi["getShare"] = async (shareId, contentLength) => {
 }
 
 /**
+ * 查询分享点赞
+ */
+ShareApi["listShareLikes"] = async (pageNum, pageSize, shareId) => {
+    let res = await Http.listSharesLikes({
+        pageNum: pageNum,
+        pageSize: pageSize,
+        shareId:shareId,
+    });
+    return res
+}
+
+/**
  * 点赞分享
  */
 ShareApi["likeShare"] = async (userId, shareId) => {

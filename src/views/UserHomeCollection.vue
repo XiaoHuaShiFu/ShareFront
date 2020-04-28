@@ -90,21 +90,21 @@
                         <Row
                             ><Avatar size="20" src="/icon/问题 (1).png" />
                             <div style="display:inline;">
-                                ：为什么要收藏微博？
+                                ：为什么要收藏分享？
                             </div></Row
                         >
                         <Row
-                            >A：微博变化太快，看到好东西，还不赶快收藏下来！</Row
+                            >A：分享变化太快，看到好东西，还不赶快收藏下来！</Row
                         >
                         <Row style="height:10px;"></Row>
                         <Row
                             ><Avatar size="20" src="/icon/问题 (1).png" />
                             <div style="display:inline;">
-                                ：为什么要给收藏的微博加标签？
+                                ：为什么要给收藏的分享加标签？
                             </div></Row
                         >
                         <Row
-                            >A：加标签方便日后查找，同时系统也可以根据你的喜好进行微博推荐哦！</Row
+                            >A：加标签方便日后查找，同时系统也可以根据你的喜好进行分享推荐哦！</Row
                         >
                     </div>
                 </Card>
@@ -112,16 +112,16 @@
                 <div style="height:10px"></div>
                 <Card style="background:#F2F2F5">
                     <p slot="title" style="font-weight:bold;text-align:left;">
-                        微博意见反馈
+                        分享意见反馈
                     </p>
                     <div
                         style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
                     >
                         <Row
-                            >欢迎使用微博并提出宝贵建议。请点击这里提交微博意见反馈。</Row
+                            >欢迎使用分享并提出宝贵建议。请点击这里提交分享意见反馈。</Row
                         >
-                        <Row style="color:#ff8140">微博常见问题</Row>
-                        <Row style="color:#ff8140">微博客服专区</Row>
+                        <Row style="color:#ff8140">分享常见问题</Row>
+                        <Row style="color:#ff8140">分享客服专区</Row>
                         <Row style="color:#ff8140"
                             >全国人大常委会《关于加强网络信息保护的决定》</Row
                         >
