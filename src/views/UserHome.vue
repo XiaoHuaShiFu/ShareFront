@@ -298,7 +298,7 @@ export default {
                     });
                 } else if (res.status == 400) {
                     Notice.warning({
-                        title: "评论失败",
+                        title: "分享失败",
                         desc: res.data.message
                     });
                 }

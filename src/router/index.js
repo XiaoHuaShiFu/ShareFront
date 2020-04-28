@@ -94,14 +94,6 @@ const routes = [
             title: '操作记录 分享-管理端',
         },
         component: () => import('../views/admin/Log.vue')
-    },
-    {
-        path: '/test',
-        name: 'test',
-        meta: {
-            title: '操作记录 分享-管理端',
-        },
-        component: () => import('../views/test.vue')
     }
 
 ]
