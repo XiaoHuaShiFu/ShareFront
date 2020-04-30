@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <Layout style="width: 100%;background:#fff;">
-            <Affix style="width:100%;">
+            <Header></Header>
+            <!-- <Affix style="width:100%;">
                 <Header style="background: #fff;border-bottom: 1px solid #eee;">
                     <Row align="middle" justify="space-around">
                         <Col span="4">
@@ -43,9 +44,9 @@
                         </Col>
                     </Row>
                 </Header>
-            </Affix>
+            </Affix> -->
 
-            <div style="width:100%; ">
+            <div style="width:100%; margin-top:10px;">
                 <Layout>
                     <Row class="center-container">
                         <Col span="11" class="center-content">
@@ -74,18 +75,14 @@
 </template>
 
 <script>
-import Search from "@/components/Search.vue";
+import Header from "@/components/Header.vue";
 import Share from "@/components/Share3.vue";
 import RankLike from "@/components/RankLike.vue";
 import RankNew from "@/components/RankNew.vue";
 import Footer from "@/components/Footer.vue";
-import LoginAndRegister from "@/components/LoginAndRegister.vue";
 import ShareApi from "./../service/ShareApi";
 import {
     Layout,
-    Header,
-    Menu,
-    MenuItem,
     Row,
     Col,
     BackTop,
@@ -95,16 +92,12 @@ export default {
         Layout,
         Header,
         Footer,
-        Menu,
-        MenuItem,
-        Search,
         Row,
         Col,
         Share,
         RankLike,
         RankNew,
         BackTop,
-        LoginAndRegister
     },
     data() {
         return {

@@ -164,10 +164,16 @@
                         display:flex; flex-direction: row;     justify-content: flex-start;"
                         >
                             <Col style="margin-top:10px; ">
-                                <Avatar
+                                <Avatar v-if="!notSignIn"
                                     shape="square"
                                     size="30"
                                     :src="user.avatarUrl"
+                                >
+                                </Avatar>
+                                <Avatar v-if="notSignIn"
+                                    shape="square"
+                                    size="30"
+                                    src="/icon/Hi.jpg"
                                 >
                                 </Avatar>
                             </Col>
@@ -702,13 +708,18 @@ export default {
             showShareCommentReply: 0,
             shareCommentComment: {},
             showShareCommentCommentReply: 0,
-            shareCommentComment2: {}
+            shareCommentComment2: {},
+            notSignIn: false
         };
     },
     async created() {
         // 加载页面数据
-        let userId = sessionStorage.getItem("id");
-        this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
+        if (sessionStorage.getItem("token") != "anonymous") {
+            let userId = sessionStorage.getItem("id");
+            this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
+        } else {
+            this.notSignIn = true;
+        }
         this.share = await ShareApi.getShare(this.$route.query.shareId, 300);
         this.shareCommentList = await ShareApi.listShareComments(
             this.pageNum,
@@ -742,7 +753,11 @@ export default {
     },
     methods: {
         async saveShare() {
-            if (this.share.imageList.length < 1) {
+            if (this.notSignIn) {
+                Notice.warning({
+                    title: "请登录后再进行分享"
+                });
+            } else if (this.share.imageList.length < 1) {
                 Notice.warning({
                     title: "分享的图片数量不能少于1"
                 });
@@ -839,6 +854,13 @@ export default {
         // 保存评论
         async saveShareComment() {
             if (
+                sessionStorage.getItem("id") == "" ||
+                sessionStorage.getItem("id") == null
+            ) {
+                Notice.warning({
+                    title: "请登录后再评论"
+                });
+            } else if (
                 this.shareComment.content == "" ||
                 this.shareComment.content == null
             ) {
@@ -869,14 +891,12 @@ export default {
          * 加载评论的评论
          */
         async onShowShareCommentComment(shareComment0) {
-            console.log(shareComment0);
             this.shareCommentCommentList = await ShareApi.listShareCommentComments(
                 1,
                 10000,
                 shareComment0.id
             );
             this.showShareCommentComment = shareComment0.id;
-            console.log(shareComment0);
         },
         /**
          * 点赞评论的评论
@@ -912,6 +932,13 @@ export default {
             parentShareCommentCommentId
         ) {
             if (
+                sessionStorage.getItem("id") == "" ||
+                sessionStorage.getItem("id") == null
+            ) {
+                Notice.warning({
+                    title: "请登录后再回复"
+                });
+            } else if (
                 this.shareCommentComment.content == "" ||
                 this.shareCommentComment.content == null
             ) {
@@ -947,6 +974,13 @@ export default {
             parentShareCommentCommentId
         ) {
             if (
+                sessionStorage.getItem("id") == "" ||
+                sessionStorage.getItem("id") == null
+            ) {
+                Notice.warning({
+                    title: "请登录后再回复"
+                });
+            } else if (
                 this.shareCommentComment2.content == "" ||
                 this.shareCommentComment2.content == null
             ) {
