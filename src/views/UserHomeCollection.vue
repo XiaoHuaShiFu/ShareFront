@@ -3,22 +3,28 @@
         <Header></Header>
         <Row class="content" style="margin-top:10px;">
             <Col span="4.2" class="centent-left">
-                <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
-                    <MenuItem name="首页">
-                        首页
-                    </MenuItem>
-                    <MenuItem name="我的分享">
-                        我的分享
-                    </MenuItem>
-                    <MenuItem name="我的收藏">
-                        我的收藏
-                    </MenuItem>
-                    <MenuItem name="我的消息">
-                        我的消息
-                    </MenuItem>
-                </Menu>
+                <Affix :offset-top="70">
+                    <Menu
+                        :active-name="activeName"
+                        @on-select="onSelectMenu"
+                        style="z-index:1"
+                    >
+                        <MenuItem name="首页">
+                            首页
+                        </MenuItem>
+                        <MenuItem name="我的分享">
+                            我的分享
+                        </MenuItem>
+                        <MenuItem name="我的收藏">
+                            我的收藏
+                        </MenuItem>
+                        <MenuItem name="我的消息">
+                            我的消息
+                        </MenuItem>
+                    </Menu>
+                </Affix>
             </Col>
-            <Col span="10" class="centent-center">
+            <Col span="12" class="centent-center">
                 <Card style="background:#F2F2F5; font-weight:bold; color:#333">
                     我的收藏
                     <div style="display:inline;font-weight:normal;">
@@ -32,101 +38,112 @@
             </Col>
             <div style="width:10px"></div>
             <Col span="5" class="centent-right">
-                <Card style="background:#F2F2F5;">
-                    <Row>
-                        <Avatar size="50" :src="user.avatarUrl" />
-                    </Row>
-                    <Row
-                        style="font-size:20px; font-weight:bold; line-height:25px;"
-                        >{{ user.nickName }}</Row
-                    >
-                    <Row
-                        style="display: flex; flex-direction: row; justify-content: center;"
-                    >
-                        <Col span="5">
-                            <Row style="font-size:15px; font-weight:bold;">{{
-                                user.collections
-                            }}</Row>
-                            <Row>收藏</Row>
-                        </Col>
-                        <Col
-                            span="1"
-                            style="display: flex; flex-direction: row; justify-content: center;align-items: center;"
-                        >
-                            <div
-                                style="border-left:1px solid #ccc; height:80%;"
-                            ></div>
-                        </Col>
-                        <Col span="5">
-                            <Row style="font-size:15px; font-weight:bold;">{{
-                                user.comments
-                            }}</Row>
-                            <Row>评论</Row>
-                        </Col>
-                        <Col
-                            span="1"
-                            style="display: flex; flex-direction: row; justify-content: center;align-items: center;"
-                        >
-                            <div
-                                style="border-left:1px solid #ccc; height:80%;"
-                            ></div>
-                        </Col>
-                        <Col span="5">
-                            <Row style="font-size:15px; font-weight:bold;">{{
-                                user.shares
-                            }}</Row>
-                            <Row>分享</Row>
-                        </Col>
-                    </Row>
-                </Card>
-                <div style="height:10px"></div>
-                <Card style="background:#F2F2F5">
-                    <p slot="title" style="font-weight:bold;text-align:left;">
-                        收藏使用小帮助
-                    </p>
-                    <div
-                        style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
-                    >
+                <Affix :offset-top="70">
+                    <Card style="background:#F2F2F5;">
+                        <Row>
+                            <Avatar size="50" :src="user.avatarUrl" />
+                        </Row>
                         <Row
-                            ><Avatar size="20" src="/icon/问题 (1).png" />
-                            <div style="display:inline;">
-                                ：为什么要收藏分享？
-                            </div></Row
+                            style="font-size:20px; font-weight:bold; line-height:25px;"
+                            >{{ user.nickName }}</Row
                         >
                         <Row
-                            >A：分享变化太快，看到好东西，还不赶快收藏下来！</Row
+                            style="display: flex; flex-direction: row; justify-content: center;"
                         >
-                        <Row style="height:10px;"></Row>
-                        <Row
-                            ><Avatar size="20" src="/icon/问题 (1).png" />
-                            <div style="display:inline;">
-                                ：为什么要给收藏的分享加标签？
-                            </div></Row
+                            <Col span="5">
+                                <Row
+                                    style="font-size:15px; font-weight:bold;"
+                                    >{{ user.collections }}</Row
+                                >
+                                <Row>收藏</Row>
+                            </Col>
+                            <Col
+                                span="1"
+                                style="display: flex; flex-direction: row; justify-content: center;align-items: center;"
+                            >
+                                <div
+                                    style="border-left:1px solid #ccc; height:80%;"
+                                ></div>
+                            </Col>
+                            <Col span="5">
+                                <Row
+                                    style="font-size:15px; font-weight:bold;"
+                                    >{{ user.comments }}</Row
+                                >
+                                <Row>评论</Row>
+                            </Col>
+                            <Col
+                                span="1"
+                                style="display: flex; flex-direction: row; justify-content: center;align-items: center;"
+                            >
+                                <div
+                                    style="border-left:1px solid #ccc; height:80%;"
+                                ></div>
+                            </Col>
+                            <Col span="5">
+                                <Row
+                                    style="font-size:15px; font-weight:bold;"
+                                    >{{ user.shares }}</Row
+                                >
+                                <Row>分享</Row>
+                            </Col>
+                        </Row>
+                    </Card>
+                    <div style="height:10px"></div>
+                    <Card style="background:#F2F2F5">
+                        <p
+                            slot="title"
+                            style="font-weight:bold;text-align:left;"
                         >
-                        <Row
-                            >A：加标签方便日后查找，同时系统也可以根据你的喜好进行分享推荐哦！</Row
+                            收藏使用小帮助
+                        </p>
+                        <div
+                            style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
                         >
-                    </div>
-                </Card>
+                            <Row
+                                ><Avatar size="20" src="/icon/问题 (1).png" />
+                                <div style="display:inline;">
+                                    ：为什么要收藏分享？
+                                </div></Row
+                            >
+                            <Row
+                                >A：分享变化太快，看到好东西，还不赶快收藏下来！</Row
+                            >
+                            <Row style="height:10px;"></Row>
+                            <Row
+                                ><Avatar size="20" src="/icon/问题 (1).png" />
+                                <div style="display:inline;">
+                                    ：为什么要给收藏的分享加标签？
+                                </div></Row
+                            >
+                            <Row
+                                >A：加标签方便日后查找，同时系统也可以根据你的喜好进行分享推荐哦！</Row
+                            >
+                        </div>
+                    </Card>
 
-                <div style="height:10px"></div>
-                <Card style="background:#F2F2F5">
-                    <p slot="title" style="font-weight:bold;text-align:left;">
-                        分享意见反馈
-                    </p>
-                    <div
-                        style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
-                    >
-                        <Row
-                            >欢迎使用分享并提出宝贵建议。请点击这里提交分享意见反馈。</Row
+                    <div style="height:10px"></div>
+                    <Card style="background:#F2F2F5">
+                        <p
+                            slot="title"
+                            style="font-weight:bold;text-align:left;"
                         >
-                        <Row style="color:#ff8140">分享常见问题</Row>
-                        <Row style="color:#ff8140">分享客服专区</Row>
-                        <Row style="color:#ff8140"
-                            >全国人大常委会《关于加强网络信息保护的决定》</Row
+                            分享意见反馈
+                        </p>
+                        <div
+                            style="display:flex; flex-direction:column; align-items: flex-start;text-align:left;"
                         >
-                    </div>
-                </Card>
+                            <Row
+                                >欢迎使用分享并提出宝贵建议。请点击这里提交分享意见反馈。</Row
+                            >
+                            <Row style="color:#ff8140">分享常见问题</Row>
+                            <Row style="color:#ff8140">分享客服专区</Row>
+                            <Row style="color:#ff8140"
+                                >全国人大常委会《关于加强网络信息保护的决定》</Row
+                            >
+                        </div>
+                    </Card>
+                </Affix>
             </Col>
         </Row>
         <Row class="footer">
@@ -151,7 +168,7 @@ import {
     MenuItem,
     Card,
     Avatar,
-    Notice,
+    Notice
 } from "view-design";
 export default {
     components: {

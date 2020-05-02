@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <Modal v-model="modal" width="400">
             <p slot="header" style="color:#f60;text-align:center"></p>
             <Row :gutter="32">
@@ -231,7 +231,7 @@ export default {
         // Upload,
         UploadImage
     },
-    props: ["username", "modal", "isLogin"],
+    props: ["username", "modal", "isLogin", "toPage"],
     data() {
         return {
             ruleInline: {
@@ -353,7 +353,12 @@ export default {
                 this.Login.error.all = "登录成功";
                 await UserApi.getUserAndSaveInSessionStorage(res.id);
                 // 跳转到个人主页
-                this.$router.push("/user/home");
+                if (this.toPage == "/user/home") {
+                    this.$router.push(this.toPage);
+                } else {
+                    this.$router.push(this.toPage);
+                    this.$router.go(0);
+                }
             }
         },
         /**
@@ -381,9 +386,13 @@ export default {
                 );
                 if (res.status == 201) {
                     Notice.success({
-                        title: "注册成功，即将跳转到主页。"
+                        title: "注册成功，即将跳转。"
                     });
-                    let res = await login(values.username, values.password, "USER");
+                    let res = await login(
+                        values.username,
+                        values.password,
+                        "USER"
+                    );
                     if (res.status == 201) {
                         res = res.data;
                         sessionStorage.setItem("token", res.token);
@@ -391,7 +400,12 @@ export default {
                         sessionStorage.setItem("id", res.id);
                         await UserApi.getUserAndSaveInSessionStorage(res.id);
                         // 跳转到个人主页
-                        this.$router.push("/user/home");
+                        if (this.toPage == "/user/home") {
+                            this.$router.push(this.toPage);
+                        } else {
+                            this.$router.push(this.toPage);
+                            this.$router.go(0);
+                        }
                     }
                 } else {
                     Notice.success({

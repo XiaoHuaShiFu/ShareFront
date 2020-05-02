@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Header></Header>
+        <Header :toPage="'/share?shareId=' + share.id"></Header>
         <Row class="content" style="margin-top:10px;">
             <Col span="13" class="centent-center">
                 <Row>
@@ -164,13 +164,15 @@
                         display:flex; flex-direction: row;     justify-content: flex-start;"
                         >
                             <Col style="margin-top:10px; ">
-                                <Avatar v-if="!notSignIn"
+                                <Avatar
+                                    v-if="!notSignIn"
                                     shape="square"
                                     size="30"
                                     :src="user.avatarUrl"
                                 >
                                 </Avatar>
-                                <Avatar v-if="notSignIn"
+                                <Avatar
+                                    v-if="notSignIn"
                                     shape="square"
                                     size="30"
                                     src="/icon/Hi.jpg"
@@ -659,6 +661,11 @@
         <Modal title="查看图片" v-model="visible">
             <img :src="visibleImageUrl" v-if="visible" style="width: 100%" />
         </Modal>
+        <LoginAndRegister
+            :modal="showLoginAndRegister"
+            :isLogin="registerOrLogin"
+            :toPage="'/share?shareId=' + share.id"
+        ></LoginAndRegister>
     </div>
 </template>
 <script>
@@ -667,6 +674,7 @@ import Header from "@/components/Header.vue";
 import UserApi from "./../service/UserApi";
 import ShareApi from "./../service/ShareApi";
 import adaptString from "./../utils/StringUtils";
+import LoginAndRegister from "@/components/LoginAndRegister.vue";
 import {
     Row,
     Col,
@@ -677,7 +685,7 @@ import {
     Avatar,
     Modal,
     Button,
-    Input
+    Input,
 } from "view-design";
 export default {
     components: {
@@ -690,7 +698,8 @@ export default {
         Avatar,
         Modal,
         Button,
-        Input
+        Input,
+        LoginAndRegister
     },
     data() {
         return {
@@ -709,7 +718,9 @@ export default {
             shareCommentComment: {},
             showShareCommentCommentReply: 0,
             shareCommentComment2: {},
-            notSignIn: false
+            notSignIn: false,
+            showLoginAndRegister: false,
+            registerOrLogin: "isLogin0"
         };
     },
     async created() {
@@ -826,11 +837,25 @@ export default {
         },
         // 点击收藏按钮
         collect(share) {
-            ShareApi.collect(share);
+            if (sessionStorage.getItem("token") != "anonymous") {
+                ShareApi.collect(share);
+            } else {
+                this.showLoginAndRegister = true;
+                Notice.warning({
+                    title: "请登录后再收藏"
+                });
+            }
         },
         // 点击点赞按钮
         like(share) {
-            ShareApi.like(share);
+            if (sessionStorage.getItem("token") != "anonymous") {
+                ShareApi.like(share);
+            } else {
+                this.showLoginAndRegister = true;
+                Notice.warning({
+                    title: "请登录后再点赞"
+                });
+            }
         },
         // 点击评论按钮
         comment(share) {
@@ -849,7 +874,14 @@ export default {
         },
         // 点击评论点赞按钮
         likeComment(shareComment) {
-            ShareApi.likeShareComment(shareComment);
+            if (sessionStorage.getItem("token") != "anonymous") {
+                ShareApi.likeShareComment(shareComment);
+            } else {
+                this.showLoginAndRegister = true;
+                Notice.warning({
+                    title: "请登录后再点赞"
+                });
+            }
         },
         // 保存评论
         async saveShareComment() {
@@ -857,6 +889,7 @@ export default {
                 sessionStorage.getItem("id") == "" ||
                 sessionStorage.getItem("id") == null
             ) {
+                this.showLoginAndRegister = true;
                 Notice.warning({
                     title: "请登录后再评论"
                 });
@@ -902,7 +935,14 @@ export default {
          * 点赞评论的评论
          */
         likeCommentComment(shareCommentComment0) {
-            ShareApi.likeShareCommentComment(shareCommentComment0);
+            if (sessionStorage.getItem("token") != "anonymous") {
+                ShareApi.likeShareCommentComment(shareCommentComment0);
+            } else {
+                this.showLoginAndRegister = true;
+                Notice.warning({
+                    title: "请登录后再点赞"
+                });
+            }
         },
         /**
          * 点击回复评论
@@ -935,6 +975,7 @@ export default {
                 sessionStorage.getItem("id") == "" ||
                 sessionStorage.getItem("id") == null
             ) {
+                this.showLoginAndRegister = true;
                 Notice.warning({
                     title: "请登录后再回复"
                 });
@@ -977,6 +1018,7 @@ export default {
                 sessionStorage.getItem("id") == "" ||
                 sessionStorage.getItem("id") == null
             ) {
+                this.showLoginAndRegister = true;
                 Notice.warning({
                     title: "请登录后再回复"
                 });

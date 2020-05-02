@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Row style=" width:100% ">
-            <Header></Header>
+            <Header :toPage="'/search?query=' + query"></Header>
             <Row
                 style="height:100px; width:100%;display:flex; flex-direction:row;align-items: center; 
                 justify-content: center;"
@@ -40,9 +40,20 @@
                         <div style="width:10px;"></div>
                         <Col span="5" class="center-sider">
                             <RankLike
+                                v-if="!showAffix"
                                 :shareListWithLike="shareLikeRankList"
                                 :title="shareLikeRankTitle"
                             ></RankLike>
+                            <Affix
+                                :offset-top="70"
+                                @on-change="change"
+                                v-if="showAffix"
+                            >
+                                <RankLike
+                                    :shareListWithLike="shareLikeRankList"
+                                    :title="shareLikeRankTitle"
+                                ></RankLike>
+                            </Affix>
                             <div style="height:10px"></div>
                             <RankNew
                                 :shareListWithNew="shareLikeNewList"
@@ -93,7 +104,8 @@ export default {
             registerOrLogin: "isLogin",
             pageNum: 1,
             query: "",
-            query0: ""
+            query0: "",
+            showAffix: false
         };
     },
     async created() {
@@ -129,6 +141,12 @@ export default {
 
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareList();
+            }
+            if (scrollTop + windowHeight > 2000) {
+                that.change(true);
+            }
+            if (scrollTop + windowHeight < 2000) {
+                that.change(false);
             }
         };
     },
@@ -169,6 +187,12 @@ export default {
         },
         onSearch() {
             this.search();
+        },
+        /**
+         * 榜单的下拉显示
+         */
+        change(status) {
+            this.showAffix = status;
         }
     }
 };

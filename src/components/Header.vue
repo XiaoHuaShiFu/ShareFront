@@ -41,7 +41,8 @@
                     >
                         <LoginAndRegister
                             :modal="showLoginAndRegister"
-                            :isLogin="registerOrLogin"
+                            :isLogin="registerOrLogin" 
+                            :toPage="toPage"
                         ></LoginAndRegister>
                         <div>
                             <MenuItem name="register">
@@ -77,6 +78,7 @@ export default {
         Affix,
         LoginAndRegister
     },
+    props: ["toPage"],
     data() {
         return {
             messageCount: 0,

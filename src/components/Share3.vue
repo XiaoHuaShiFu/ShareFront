@@ -208,13 +208,22 @@
                     </Row>
                 </Col>
             </Row>
+            
+
+        </Card>
+                         <LoginAndRegister
+            :modal="showLoginAndRegister"
+            :isLogin="registerOrLogin"
+            :toPage="toPage"
+            ></LoginAndRegister>  
+            
             <Modal title="查看图片" v-model="visible">
                 <img
                     :src="visibleImageUrl"
                     v-if="visible"
                     style="width: 100%"
                 />
-            </Modal>
+            </Modal> 
             <Modal width="300" v-model="showLikeList" title="点赞列表">
                 <Row
                     v-for="like0 in likeList"
@@ -238,7 +247,6 @@
                     </Col>
                 </Row>
             </Modal>
-        </Card>
     </div>
 </template>
 
@@ -256,6 +264,7 @@ import {
     Notice
 } from "view-design";
 import ShareApi from "./../service/ShareApi";
+import LoginAndRegister from "@/components/LoginAndRegister.vue";
 export default {
     components: {
         Card,
@@ -266,26 +275,44 @@ export default {
         Icon,
         Dropdown,
         DropdownMenu,
-        DropdownItem
+        DropdownItem,
+        LoginAndRegister
     },
-    props: ["shareList", "handleReachBottom", "showDropdown"],
+    props: ["shareList", "handleReachBottom", "showDropdown", "toPage"],
     data() {
         return {
             visible: false,
             visibleImageUrl: "",
             onClickDropDownShare: {},
             showLikeList: false,
-            likeList: []
+            likeList: [],
+            showLoginAndRegister: false,
+            registerOrLogin: "isLogin0"
         };
     },
     methods: {
         // 点击收藏按钮
         collect(share) {
-            ShareApi.collect(share);
+            if (sessionStorage.getItem("token") != "anonymous") {
+                ShareApi.collect(share);
+            } else {
+                Notice.warning({
+                    title: "请登录后再收藏"
+                });
+                this.showLoginAndRegister = true;
+            }
         },
         // 点击点赞按钮
         like(share) {
-            ShareApi.like(share);
+            if (sessionStorage.getItem("token") != "anonymous") {
+                ShareApi.like(share);
+            } else {
+                this.showLoginAndRegister = true;
+                Notice.warning({
+                    title: "请登录后再点赞"
+                });
+            }
+            
         },
         // 点击评论按钮
         comment(share) {

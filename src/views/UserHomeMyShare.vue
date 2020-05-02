@@ -3,22 +3,28 @@
         <Header></Header>
         <Row class="content" style="margin-top:10px;">
             <Col span="4.2" class="centent-left">
-                <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
-                    <MenuItem name="首页">
-                        首页
-                    </MenuItem>
-                    <MenuItem name="我的分享">
-                        我的分享
-                    </MenuItem>
-                    <MenuItem name="我的收藏">
-                        我的收藏
-                    </MenuItem>
-                    <MenuItem name="我的消息">
-                        我的消息
-                    </MenuItem>
-                </Menu>
+                <Affix :offset-top="70">
+                    <Menu
+                        :active-name="activeName"
+                        @on-select="onSelectMenu"
+                        style="z-index:1"
+                    >
+                        <MenuItem name="首页">
+                            首页
+                        </MenuItem>
+                        <MenuItem name="我的分享">
+                            我的分享
+                        </MenuItem>
+                        <MenuItem name="我的收藏">
+                            我的收藏
+                        </MenuItem>
+                        <MenuItem name="我的消息">
+                            我的消息
+                        </MenuItem>
+                    </Menu>
+                </Affix>
             </Col>
-            <Col span="10" class="centent-center">
+            <Col span="12" class="centent-center">
                 <Card style="background:#F2F2F5; font-weight:bold; color:#333">
                     我的分享
                     <div style="display:inline;font-weight:normal;">
@@ -32,6 +38,7 @@
             </Col>
             <div style="width:10px"></div>
             <Col span="5" class="centent-right">
+            <Affix :offset-top="70">
                 <Card style="background:#F2F2F5;">
                     <Row>
                         <Avatar size="50" :src="user.avatarUrl" />
@@ -97,6 +104,7 @@
                         >
                     </div>
                 </Card>
+                </Affix>
             </Col>
         </Row>
         <Row class="footer">

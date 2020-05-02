@@ -1,9 +1,16 @@
 <template>
-    <div class="container" >
+    <div class="container">
         <Header></Header>
         <Row class="content" style="margin-top:10px;">
             <Col span="4.2" class="centent-left">
-                <Menu :active-name="activeName" @on-select="onSelectMenu" style="z-index:1">
+            <Affix
+                                :offset-top="70"
+                            >
+                <Menu
+                    :active-name="activeName"
+                    @on-select="onSelectMenu"
+                    style="z-index:1"
+                >
                     <MenuItem name="首页">
                         首页
                     </MenuItem>
@@ -17,6 +24,7 @@
                         我的消息
                     </MenuItem>
                 </Menu>
+                </Affix>
             </Col>
             <Col span="12" class="centent-center">
                 <Card style="background:#F2F2F5">
@@ -137,9 +145,16 @@
                 </Card>
                 <div style="height:10px"></div>
                 <RankLike
+                    v-if="!showAffix"
                     :shareListWithLike="shareLikeRankList"
                     :title="shareLikeRankTitle"
                 ></RankLike>
+                <Affix :offset-top="70" @on-change="change" v-if="showAffix">
+                    <RankLike
+                        :shareListWithLike="shareLikeRankList"
+                        :title="shareLikeRankTitle"
+                    ></RankLike>
+                </Affix>
                 <div style="height:10px"></div>
                 <RankNew
                     :shareListWithNew="shareLikeNewList"
@@ -220,7 +235,8 @@ export default {
             },
             pageNum: 1,
             hasNextPage: true,
-            activeName: "首页"
+            activeName: "首页",
+            showAffix: false
         };
     },
     async created() {
@@ -250,6 +266,12 @@ export default {
 
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareList();
+            }
+            if (scrollTop + windowHeight > 2000) {
+                that.change(true);
+            }
+            if (scrollTop + windowHeight < 2000) {
+                that.change(false);
             }
         };
 
@@ -321,7 +343,7 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
-            console.log("userHome pushShareList")
+            console.log("userHome pushShareList");
             let shareList0 = await ShareApi.listShares(
                 this.pageNum + 1,
                 10,
@@ -353,11 +375,17 @@ export default {
                 this.$router.push({
                     path: "/user/home/myshare"
                 });
-            }else if (name == "我的消息") {
+            } else if (name == "我的消息") {
                 this.$router.push({
                     path: "/user/home/mymessage"
                 });
             }
+        },
+        /**
+         * 榜单的下拉显示
+         */
+        change(status) {
+            this.showAffix = status;
         }
     }
 };

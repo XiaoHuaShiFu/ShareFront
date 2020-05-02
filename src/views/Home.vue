@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Layout style="width: 100%;background:#fff;">
-            <Header></Header>
+            <Header :toPage="'/user/home'"></Header>
             <!-- <Affix style="width:100%;">
                 <Header style="background: #fff;border-bottom: 1px solid #eee;">
                     <Row align="middle" justify="space-around">
@@ -50,14 +50,29 @@
                 <Layout>
                     <Row class="center-container">
                         <Col span="11" class="center-content">
-                            <Share :shareList="shareList"></Share>
+                            <Share
+                                :shareList="shareList"
+                                :toPage="'/user/home'"
+                            ></Share>
                         </Col>
                         <div style="width:10px;"></div>
+
                         <Col span="5" class="center-sider">
                             <RankLike
+                                v-if="!showAffix"
                                 :shareListWithLike="shareLikeRankList"
                                 :title="shareLikeRankTitle"
                             ></RankLike>
+                            <Affix
+                                :offset-top="70"
+                                @on-change="change"
+                                v-if="showAffix"
+                            >
+                                <RankLike
+                                    :shareListWithLike="shareLikeRankList"
+                                    :title="shareLikeRankTitle"
+                                ></RankLike>
+                            </Affix>
                             <div style="height:10px"></div>
                             <RankNew
                                 :shareListWithNew="shareLikeNewList"
@@ -81,12 +96,7 @@ import RankLike from "@/components/RankLike.vue";
 import RankNew from "@/components/RankNew.vue";
 import Footer from "@/components/Footer.vue";
 import ShareApi from "./../service/ShareApi";
-import {
-    Layout,
-    Row,
-    Col,
-    BackTop,
-} from "view-design";
+import { Layout, Row, Col, BackTop } from "view-design";
 export default {
     components: {
         Layout,
@@ -97,7 +107,7 @@ export default {
         Share,
         RankLike,
         RankNew,
-        BackTop,
+        BackTop
     },
     data() {
         return {
@@ -109,7 +119,8 @@ export default {
             activeName: "",
             showLoginAndRegister: false,
             registerOrLogin: "isLogin",
-            pageNum: 1
+            pageNum: 1,
+            showAffix: false
         };
     },
     async created() {
@@ -138,6 +149,12 @@ export default {
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareList();
             }
+            if (scrollTop + windowHeight > 2000) {
+                that.change(true);
+            }
+            if (scrollTop + windowHeight < 2000) {
+                that.change(false);
+            }
         };
     },
 
@@ -156,7 +173,7 @@ export default {
          * 加载下一页
          */
         async pushShareList() {
-            console.log("dasdasdas")
+            console.log("dasdasdas");
             let shareList0 = await ShareApi.listShares(
                 this.pageNum + 1,
                 10,
@@ -182,6 +199,9 @@ export default {
             } else {
                 this.$router.push({ path: "/" });
             }
+        },
+        change (status) {
+            this.showAffix = status;
         }
     }
 };
