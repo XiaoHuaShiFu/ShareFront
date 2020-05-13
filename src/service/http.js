@@ -3,7 +3,7 @@ import service from './Api'
 import ViewUI from 'view-design';
 
 let instance = axios.create({
-    baseURL: 'http://localhost:8888',
+    baseURL: 'http://39.96.92.162:8888',
     timeout: 5000
 })
 
