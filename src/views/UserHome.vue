@@ -252,7 +252,7 @@ export default {
             "share_time",
             15
         );
-
+    
         // 监听触底事件
         let that = this;
         window.onscroll = function() {
@@ -267,6 +267,12 @@ export default {
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareList();
             }
+            // console.log("Z=" + (scrollTop + 0.199951171875 + windowHeight));
+            // console.log("Y=" + scrollHeight)
+            // console.log("A=" + scrollTop)
+            // console.log("B=" + windowHeight)
+            // console.log("C=" + scrollHeight)
+            
             if (scrollTop + windowHeight > 2000) {
                 that.change(true);
             }
