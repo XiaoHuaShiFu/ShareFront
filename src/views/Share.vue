@@ -731,7 +731,7 @@ export default {
         } else {
             this.notSignIn = true;
         }
-        this.share = await ShareApi.getShare(this.$route.query.shareId, 300);
+        this.share = await ShareApi.getShare(this.$route.query.shareId, 1000);
         this.shareCommentList = await ShareApi.listShareComments(
             this.pageNum,
             this.pageSize,
@@ -752,6 +752,7 @@ export default {
 
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareCommentList();
+                console.log("dasdasasd")
             }
         };
 

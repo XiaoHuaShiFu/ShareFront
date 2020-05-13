@@ -127,13 +127,13 @@ export default {
         if (sessionStorage["token"] == null) {
             sessionStorage.setItem("token", "anonymous");
         }
-        this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 13);
+        this.shareList = await ShareApi.listShares(1, 10, "share_time", 1000);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 20);
         this.shareLikeNewList = await ShareApi.listShares(
             1,
             10,
             "share_time",
-            13
+            18
         );
         let that = this;
         window.onscroll = function() {

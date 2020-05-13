@@ -234,6 +234,7 @@ export default {
                 imageList: []
             },
             pageNum: 1,
+            pageSize: 3,
             hasNextPage: true,
             activeName: "首页",
             showAffix: false
@@ -243,13 +244,13 @@ export default {
         // 加载页面数据
         let userId = sessionStorage.getItem("id");
         this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
-        this.shareList = await ShareApi.listShares(1, 10, "share_time", 300);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 13);
+        this.shareList = await ShareApi.listShares(1, this.pageSize, "share_time", 1000);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 16);
         this.shareLikeNewList = await ShareApi.listShares(
             1,
             10,
             "share_time",
-            13
+            15
         );
 
         // 监听触底事件
@@ -263,7 +264,6 @@ export default {
             var scrollHeight =
                 document.documentElement.scrollHeight ||
                 document.body.scrollHeight;
-
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareList();
             }
@@ -288,27 +288,34 @@ export default {
                     title: "分享的图片数量不能少于1"
                 });
             } else {
-                console.log(this.share.imageList);
-                let config = {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                };
+                // console.log(this.share.imageList);
+                // let config = {
+                //     headers: {
+                //         "Content-Type": "multipart/form-data"
+                //     }
+                // };
+                // let imageList0 = [];
+                // for (let i = 0; i < this.share.imageList.length; i++) {
+                //     imageList0.push(this.share.imageList[i].file);
+                // }
+                // let res = await this.$Http.postShares(
+                //     {
+                //         userId: sessionStorage.getItem("id"),
+                //         content: this.share.content,
+                //         open: this.share.open,
+                //         imageList: imageList0
+                //     },
+                //     true,
+                //     config
+                // );
                 let imageList0 = [];
                 for (let i = 0; i < this.share.imageList.length; i++) {
                     imageList0.push(this.share.imageList[i].file);
                 }
-                let res = await this.$Http.postShares(
-                    {
-                        userId: sessionStorage.getItem("id"),
-                        content: this.share.content,
-                        open: this.share.open,
-                        imageList: imageList0
-                    },
-                    true,
-                    config
-                );
-                if (res.status == 201) {
+                let res = await ShareApi.saveShare(sessionStorage.getItem("id"), this.share.content, this.share.open, imageList0)
+                console.log("--------------分析成功--------------")
+                console.log(res)
+                if (res.status == 201 || res.status == "201 Created") {
                     Notice.success({
                         title: "分享成功"
                     });
@@ -346,9 +353,9 @@ export default {
             console.log("userHome pushShareList");
             let shareList0 = await ShareApi.listShares(
                 this.pageNum + 1,
-                10,
+                this.pageSize,
                 "share_time",
-                300
+                1000
             );
             if (shareList0.length > 0) {
                 for (let i = 0; i < shareList0.length; i++) {

@@ -31,6 +31,25 @@ ShareApi["listShares"] = async (pageNum, pageSize, orderBy, contentLength, open=
     return shareList
 }
 
+ShareApi["saveShare"] = async(userId, content, open, imageList0)=> {
+    let config = {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    };
+    let res = await Http.postShares({
+            userId: userId,
+            content: content,
+            open: open,
+            imageList: imageList0
+        },
+        true,
+        config
+    );
+    console.log(res);
+    return res;
+}
+
 /**
  * 查询分享通过内容
  */
