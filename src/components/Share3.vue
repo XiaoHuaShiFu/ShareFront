@@ -217,7 +217,7 @@
             :toPage="toPage"
             ></LoginAndRegister>  
             
-            <Modal title="查看图片" v-model="visible">
+            <Modal width="400" title="查看图片" v-model="visible">
                 <img
                     :src="visibleImageUrl"
                     v-if="visible"

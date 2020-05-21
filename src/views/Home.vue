@@ -82,7 +82,6 @@
                     </Row>
                 </Layout>
             </div>
-
             <Footer></Footer>
         </Layout>
         <BackTop></BackTop>
@@ -96,7 +95,7 @@ import RankLike from "@/components/RankLike.vue";
 import RankNew from "@/components/RankNew.vue";
 import Footer from "@/components/Footer.vue";
 import ShareApi from "./../service/ShareApi";
-import { Layout, Row, Col, BackTop } from "view-design";
+import { Layout, Row, Col} from "view-design";
 export default {
     components: {
         Layout,
@@ -106,8 +105,7 @@ export default {
         Col,
         Share,
         RankLike,
-        RankNew,
-        BackTop
+        RankNew
     },
     data() {
         return {
@@ -128,13 +126,8 @@ export default {
             sessionStorage.setItem("token", "anonymous");
         }
         this.shareList = await ShareApi.listShares(1, 10, "share_time", 1000);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 20);
-        this.shareLikeNewList = await ShareApi.listShares(
-            1,
-            10,
-            "share_time",
-            18
-        );
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 15);
+        this.shareLikeNewList = await ShareApi.listShares(1, 10, "share_time", 14);
         let that = this;
         window.onscroll = function() {
             var scrollTop =

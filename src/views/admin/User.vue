@@ -11,8 +11,12 @@
                     敏感词管理
                 </MenuItem>
                 <MenuItem name="操作记录">
-                    <Icon type="logo-wordpress" />
+                    <Icon type="ios-recording" />
                     操作记录
+                </MenuItem>
+                <MenuItem name="退出登录">
+                    <Icon type="md-log-out" />
+                    退出登录
                 </MenuItem>
             </Menu>
         </Col>
@@ -220,6 +224,12 @@ export default {
                 this.$router.push({
                     path: "/admin/log"
                 });
+            } else if (name == "退出登录") {
+                sessionStorage.clear();
+                this.$router.push({
+                    path: "/admin/login"
+                });
+                this.$router.go(0);
             }
         }
     }
@@ -227,7 +237,7 @@ export default {
 </script>
 
 <style>
-html {
+body,html {
     background: #fff;
 }
 </style>

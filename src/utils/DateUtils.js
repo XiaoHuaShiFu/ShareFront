@@ -6,11 +6,11 @@ const changeTime = (stringTime) => {
     var month = day * 30;
     var time1 = new Date().getTime();//当前的时间戳
     var time2 = Date.parse(new Date(stringTime));//指定时间的时间戳
-    var time = time1 - time2 - 28800000;
+    var time = time1 - time2 - 28790000;
 
     var result = null;
     if (time < 0) {
-        alert("设置的时间不能早于当前时间！");
+        alert("设置的时间不能早于当前时间！" + time);
     } else if (time / month >= 1) {
         result = stringTime.substring(5, 16);
     } else if (time / week >= 1) {

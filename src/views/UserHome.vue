@@ -245,12 +245,12 @@ export default {
         let userId = sessionStorage.getItem("id");
         this.user = await UserApi.getUserAndSaveInSessionStorage(userId);
         this.shareList = await ShareApi.listShares(1, this.pageSize, "share_time", 1000);
-        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 16);
+        this.shareLikeRankList = await ShareApi.listShares(1, 10, "likes", 15);
         this.shareLikeNewList = await ShareApi.listShares(
             1,
             10,
             "share_time",
-            15
+            14
         );
     
         // 监听触底事件
@@ -267,12 +267,6 @@ export default {
             if (scrollTop + windowHeight == scrollHeight) {
                 that.pushShareList();
             }
-            // console.log("Z=" + (scrollTop + 0.199951171875 + windowHeight));
-            // console.log("Y=" + scrollHeight)
-            // console.log("A=" + scrollTop)
-            // console.log("B=" + windowHeight)
-            // console.log("C=" + scrollHeight)
-            
             if (scrollTop + windowHeight > 2000) {
                 that.change(true);
             }
@@ -319,8 +313,6 @@ export default {
                     imageList0.push(this.share.imageList[i].file);
                 }
                 let res = await ShareApi.saveShare(sessionStorage.getItem("id"), this.share.content, this.share.open, imageList0)
-                console.log("--------------分析成功--------------")
-                console.log(res)
                 if (res.status == 201 || res.status == "201 Created") {
                     Notice.success({
                         title: "分享成功"

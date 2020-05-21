@@ -4,7 +4,7 @@ import ViewUI from 'view-design';
 
 let instance = axios.create({
     baseURL: 'http://39.96.92.162:8888',
-    timeout: 5000
+    timeout: 100000
 })
 
 // 包裹请求方法的容器

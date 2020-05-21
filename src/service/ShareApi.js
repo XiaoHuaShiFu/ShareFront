@@ -357,7 +357,6 @@ ShareApi["like"] = async (share) => {
                 sessionStorage.getItem("id"),
                 share.id
             );
-            console.log(res)
             if (res.status == 204) {
                 share.likes = share.likes - 1;
                 share.liked = false;
